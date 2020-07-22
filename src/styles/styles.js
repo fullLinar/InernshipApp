@@ -17,7 +17,7 @@ export const styles = StyleSheet.create({
     width: 345,
     borderStyle: 'solid',
     borderWidth: 1,
-    borderColor: '#E5E5E5',
+    borderColor: '#000',
     borderRadius: 10,
     marginBottom: 5,
     paddingHorizontal: 10,
@@ -33,7 +33,7 @@ export const styles = StyleSheet.create({
     marginVertical: 10,
   },
   buttonText: {
-    fontSize: 12,
+    fontSize: 16,
     color: '#fff',
   },
 });

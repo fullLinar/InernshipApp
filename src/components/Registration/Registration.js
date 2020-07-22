@@ -3,7 +3,7 @@ import {Wview, Text, TextInput, Button, StyleSheet, View} from 'react-native';
 import {styles} from '../../styles/styles';
 import CustomButton from '../CustomButton/CustomButton';
 
-const Registrattion = ({navigation}) => {
+const Registration = ({navigation}) => {
   return (
     <View style={styles.container}>
       <Text style={styles.subTitles}>Name:</Text>
@@ -29,4 +29,4 @@ const Registrattion = ({navigation}) => {
   );
 };
 
-export default Registrattion;
+export default Registration;

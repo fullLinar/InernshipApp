@@ -1,10 +1,8 @@
 import React from 'react';
-import {StyleSheet, View, Text} from 'react-native';
-import {NavigationContainer} from '@react-navigation/native';
-import {createStackNavigator} from '@react-navigation/stack';
-import LogIn from './src/components/LogIn/LogIn';
-import Registrattion from './src/components/Registration/Registration';
-import {color} from 'react-native-reanimated';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import LoginScreen from './src/screens/loginScreen';
+import RegistrationScreen from './src/screens/registration';
 
 const App = () => {
   const Stack = createStackNavigator();
@@ -12,9 +10,9 @@ const App = () => {
     <NavigationContainer>
       <Stack.Navigator
         initialRouteName="Registration"
-        screenOptions={{headerTitleStyle: {fontSize: 17}}}>
-        <Stack.Screen name="LogIn" component={LogIn} />
-        <Stack.Screen name="Registration" component={Registrattion} />
+        screenOptions={{ headerTitleStyle: { fontSize: 17 } }}>
+        <Stack.Screen name="LogIn" component={LoginScreen} />
+        <Stack.Screen name="Registration" component={RegistrationScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
