@@ -1,9 +1,9 @@
 import React from 'react';
-import {Wview, Text, TextInput, Button, StyleSheet, View} from 'react-native';
-import {styles} from '../../styles/styles';
+import { Text, TextInput, View } from 'react-native';
+import { styles } from '../../styles/styles';
 import CustomButton from '../CustomButton/CustomButton';
 
-const Registration = ({navigation}) => {
+const Registration = ({ navigation, submitRegistrationData }) => {
   return (
     <View style={styles.container}>
       <Text style={styles.subTitles}>Name:</Text>
@@ -19,7 +19,7 @@ const Registration = ({navigation}) => {
       <CustomButton
         style={styles.button}
         title="Registration"
-        onPress={() => console.log('regist')}
+        onPress={() => submitRegistrationData()}
       />
       <CustomButton
         title="Log In"

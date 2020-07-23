@@ -1,9 +1,9 @@
 import React from 'react';
-import {View, Text, TextInput, Button, StyleSheet} from 'react-native';
-import {styles} from '../../styles/styles';
+import { View, Text, TextInput } from 'react-native';
+import { styles } from '../../styles/styles';
 import CustomButton from '../CustomButton/CustomButton';
 
-const LogIn = ({navigation}) => {
+const LogIn = ({ navigation, logIn }) => {
   return (
     <>
       <View style={styles.container}>
@@ -15,7 +15,7 @@ const LogIn = ({navigation}) => {
           textContentType={'password'}
           secureTextEntry={true}
         />
-        <CustomButton title="Log In" onPress={() => console.log('Log in')} />
+        <CustomButton title="Log In" onPress={() => logIn()} />
         <CustomButton
           title="Registration"
           onPress={() => navigation.goBack()}

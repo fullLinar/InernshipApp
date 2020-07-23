@@ -1,20 +1,13 @@
 import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import LoginScreen from './src/screens/loginScreen';
-import RegistrationScreen from './src/screens/registration';
+import Navigation from './src/components/Navigation.js';
+import { Provider } from 'react-redux';
+import store from './src/store/redux-store';
 
 const App = () => {
-  const Stack = createStackNavigator();
   return (
-    <NavigationContainer>
-      <Stack.Navigator
-        initialRouteName="Registration"
-        screenOptions={{ headerTitleStyle: { fontSize: 17 } }}>
-        <Stack.Screen name="LogIn" component={LoginScreen} />
-        <Stack.Screen name="Registration" component={RegistrationScreen} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <Provider store={store}>
+      <Navigation />
+    </Provider>
   );
 };
 
