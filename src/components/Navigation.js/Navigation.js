@@ -6,6 +6,7 @@ import RegistrationScreen from '../../screens/registrationScreen';
 import { connect } from 'react-redux';
 import { getAuth } from '../../selectors/selectors';
 import myDeskScreen from '../../screens/myDeskScreen';
+import AddHeaderButton from '../CustomButton/AddHeaderButton';
 
 const Navigation = ({ isAuth }) => {
   const Stack = createStackNavigator();
@@ -20,7 +21,15 @@ const Navigation = ({ isAuth }) => {
             <Stack.Screen name="Registration" component={RegistrationScreen} />
           </>
         ) : (
-          <Stack.Screen name="My Desk" component={myDeskScreen} />
+          <Stack.Screen
+            name="My Desk"
+            component={myDeskScreen}
+            options={{
+              headerRight: () => (
+                <AddHeaderButton onPress={() => alert('This is a button!')} />
+              ),
+            }}
+          />
         )}
       </Stack.Navigator>
     </NavigationContainer>
