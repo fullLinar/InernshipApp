@@ -1,34 +1,41 @@
 import React from 'react';
 import LogIn from '../components/LogIn';
 import { connect } from 'react-redux';
-import { onChangeAuth } from '../actions/authActions';
-import axios from 'axios';
-
+import { setEmail, setPassword, submitLogIn } from '../actions/authActions';
+import { getLogInData } from '../selectors/selectors';
 class LoginScreen extends React.Component {
   logIn = () => {
-    const authData = {
-      email: 'a_linar94@mail.ru',
-      password: 'testpass',
-    };
-    const token =
-      '64f40201de9dd40595ebddd84f74984802a9f0be3fb4ea8a2ba6c43cf42e8c8c';
-    axios
-      .get('https://trello-purrweb.herokuapp.com/cards', {
-        headers: {
-          Authorization: 'Bearer ' + token,
-          'Content-Type': 'application/json',
-        },
-      })
-      .then((response) => console.log(response.data));
+    this.props.submitLogIn(this.props.logInData);
+  };
+
+  onChangeEmail = (emailText) => {
+    this.props.setEmail({ emailText });
+  };
+
+  onChangePassword = (passText) => {
+    this.props.setPassword({ passText });
   };
   render() {
-    return <LogIn navigation={this.props.navigation} logIn={this.logIn} />;
+    return (
+      <LogIn
+        navigation={this.props.navigation}
+        logIn={this.logIn}
+        onChangeEmail={this.onChangeEmail}
+        onChangePassword={this.onChangePassword}
+        email={this.props.logInData.email}
+        pass={this.props.logInData.password}
+      />
+    );
   }
 }
 const mapStateToProps = (state) => {
-  return {};
+  return {
+    logInData: getLogInData(state),
+  };
 };
 const mapDispatchToProps = {
-  onChangeAuth,
+  submitLogIn,
+  setEmail,
+  setPassword,
 };
 export default connect(mapStateToProps, mapDispatchToProps)(LoginScreen);

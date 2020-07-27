@@ -1,10 +1,10 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 
-const MyDesk = () => {
+const MyDesk = (props) => {
   return (
     <View>
-      <Text>My Desk</Text>
+      {!props.isFetching ? <Text>My Desk</Text> : <Text>is fetching</Text>}
     </View>
   );
 };

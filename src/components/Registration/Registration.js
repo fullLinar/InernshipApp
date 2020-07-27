@@ -3,27 +3,39 @@ import { Text, TextInput, View } from 'react-native';
 import { styles } from '../../styles/styles';
 import CustomButton from '../CustomButton/CustomButton';
 
-const Registration = ({ navigation, submitRegistrationData }) => {
+const Registration = (props) => {
   return (
     <View style={styles.container}>
       <Text style={styles.subTitles}>Name:</Text>
-      <TextInput style={styles.textInput} />
+      <TextInput
+        style={styles.textInput}
+        value={props.name}
+        onChangeText={(nameText) => props.onChangeName(nameText)}
+      />
       <Text style={styles.subTitles}>Email:</Text>
-      <TextInput style={styles.textInput} textContentType={'emailAddress'} />
+      <TextInput
+        style={styles.textInput}
+        textContentType={'emailAddress'}
+        autoCapitalize={'none'}
+        value={props.email}
+        onChangeText={(emailText) => props.onChangeEmail(emailText)}
+      />
       <Text style={styles.subTitles}>Password:</Text>
       <TextInput
         style={styles.textInput}
-        extContentType={'password'}
+        textContentType={'password'}
         secureTextEntry={true}
+        value={props.pass}
+        onChangeText={(passText) => props.onChangePassword(passText)}
       />
       <CustomButton
         style={styles.button}
         title="Registration"
-        onPress={() => submitRegistrationData()}
+        onPress={() => props.submitRegistrationData()}
       />
       <CustomButton
         title="Log In"
-        onPress={() => navigation.navigate('LogIn')}
+        onPress={() => props.navigation.navigate('LogIn')}
       />
     </View>
   );

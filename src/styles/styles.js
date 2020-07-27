@@ -1,4 +1,4 @@
-import {StyleSheet} from 'react-native';
+import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
   container: {
@@ -21,7 +21,7 @@ export const styles = StyleSheet.create({
     borderRadius: 10,
     marginBottom: 5,
     paddingHorizontal: 10,
-    textTransform: 'none',
+    textTransform: 'lowercase',
   },
   buttonContainer: {
     height: 30,
