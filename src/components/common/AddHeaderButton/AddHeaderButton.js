@@ -1,6 +1,6 @@
 import React from 'react';
 import { TouchableOpacity, Text, View } from 'react-native';
-import PlusIcon from '../SvgIcons/PlusIcom';
+import PlusIcon from '../../SvgIcons/PlusIcon';
 
 const AddHeaderButton = ({ onPress }) => {
   return (

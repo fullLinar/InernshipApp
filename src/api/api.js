@@ -26,3 +26,12 @@ export const getColumnsFromAPI = (token) => {
     },
   });
 };
+
+export const setColumn = (columnData, token) => {
+  return axiosInstance.post('columns', columnData, {
+    headers: {
+      Authorization: 'Bearer ' + token,
+      'Content-Type': 'application/json',
+    },
+  });
+};

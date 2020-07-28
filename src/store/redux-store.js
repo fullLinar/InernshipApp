@@ -1,15 +1,13 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import reduxThunk from 'redux-thunk';
 import authReducer from '../reducers/authReducer';
-import todoReducer from '../reducers/todoReducer';
+import columnsReducer from '../reducers/columnsReducer';
 import prayerReducer from '../reducers/prayerReducer';
 import commentReducer from '../reducers/commentReducer';
-import deskReducer from '../reducers/deskReducer';
 
 const reducers = combineReducers({
   authData: authReducer,
-  deskData: deskReducer,
-  todoData: todoReducer,
+  columnsData: columnsReducer,
   prayerData: prayerReducer,
   commentData: commentReducer,
 });

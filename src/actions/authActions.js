@@ -6,7 +6,7 @@ import {
   FETCH_PROFILE_DATA,
 } from '../reducers/authReducer';
 
-import { submitRegistData, submitLogInData } from '../utils/utils';
+import { submitRegistData, submitLogInData } from '../api/api';
 
 export const setName = ({ nameText }) => {
   return {

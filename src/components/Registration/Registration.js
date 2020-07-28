@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, TextInput, View } from 'react-native';
 import { styles } from '../../styles/styles';
-import CustomButton from '../CustomButton/CustomButton';
+import CustomButton from '../common/CustomButton';
 
 const Registration = (props) => {
   return (

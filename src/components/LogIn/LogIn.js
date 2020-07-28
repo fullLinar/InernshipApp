@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, TextInput } from 'react-native';
 import { styles } from '../../styles/styles';
-import CustomButton from '../CustomButton/CustomButton';
+import CustomButton from '../common/CustomButton';
 
 const LogIn = (props) => {
   return (

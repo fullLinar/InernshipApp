@@ -2,13 +2,14 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import LoginScreen from '../../screens/loginScreen';
-import RegistrationScreen from '../../screens/registrationScreen';
+import RegistrationScreen from '../../screens/RegistrationScreen';
 import { connect } from 'react-redux';
 import { getAuth } from '../../selectors/selectors';
-import myDeskScreen from '../../screens/myDeskScreen';
-import AddHeaderButton from '../CustomButton/AddHeaderButton';
+import myDeskScreen from '../../screens/MyDeskScreen';
+import AddHeaderButton from '../common/AddHeaderButton';
+import { toggleIsAddInput } from '../../actions/columnActions';
 
-const Navigation = ({ isAuth }) => {
+const Navigation = ({ isAuth, toggleIsAddInput }) => {
   const Stack = createStackNavigator();
   return (
     <NavigationContainer>
@@ -26,7 +27,7 @@ const Navigation = ({ isAuth }) => {
             component={myDeskScreen}
             options={{
               headerRight: () => (
-                <AddHeaderButton onPress={() => alert('This is a button!')} />
+                <AddHeaderButton onPress={() => toggleIsAddInput()} />
               ),
             }}
           />
@@ -40,4 +41,8 @@ const mapStateToProps = (state) => {
     isAuth: getAuth(state),
   };
 };
-export default connect(mapStateToProps)(Navigation);
+
+const mapDispatchToProps = {
+  toggleIsAddInput,
+};
+export default connect(mapStateToProps, mapDispatchToProps)(Navigation);
