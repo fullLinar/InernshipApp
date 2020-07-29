@@ -1,8 +1,7 @@
 import React from 'react';
 import { View, TextInput } from 'react-native';
-import PlusIcon from '../../SvgIcons/PlusIcon';
-
-const AddImput = ({ setColumnTitle }) => {
+import AddButton from '../AddButton';
+const AddImput = ({ setColumnTitle, onPress, width, height }) => {
   return (
     <View
       style={{
@@ -13,8 +12,9 @@ const AddImput = ({ setColumnTitle }) => {
         borderColor: '#E5E5E5',
         borderWidth: 1,
         borderRadius: 4,
+        marginBottom: 20,
       }}>
-      <PlusIcon width={24} height={24} />
+      <AddButton width={width} height={height} onPress={onPress} />
       <TextInput
         placeholder="Add a prayer..."
         autoCapitalize={'none'}

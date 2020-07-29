@@ -6,6 +6,7 @@ import {
   getColumnsList,
   getIsFetching,
   getIsAddInput,
+  getColumnData,
 } from '../selectors/selectors';
 import {
   setColumnsFromAPI,
@@ -17,11 +18,10 @@ class MyDeskScreen extends React.Component {
     this.props.setColumnsFromAPI(this.props.token);
   }
   setNewColumn = () => {
-    const columnData = {
-      title: this.props.columnTitle,
-      description: 'some descr',
-    };
-    this.props.setColumnToAPI(columnData, this.props.token);
+    const { newColumnData, token } = this.props;
+    if (newColumnData.title !== '') {
+      this.props.setColumnToAPI(newColumnData, token);
+    }
   };
   setColumnTitle = (titleText) => {
     this.props.setColumnTitle(titleText);
@@ -34,6 +34,7 @@ class MyDeskScreen extends React.Component {
         isAddInput={this.props.isAddInput}
         setNewColumn={this.setNewColumn}
         setColumnTitle={this.setColumnTitle}
+        navigation={this.props.navigation}
       />
     );
   }
@@ -45,8 +46,7 @@ const mapStateToProps = (state) => {
     columns: getColumnsList(state),
     isFetching: getIsFetching(state),
     isAddInput: getIsAddInput(state),
-    columnTitle: state.columnsData.columnTitle,
-    columnDescr: state.columnsData.columnDescription,
+    newColumnData: getColumnData(state),
   };
 };
 

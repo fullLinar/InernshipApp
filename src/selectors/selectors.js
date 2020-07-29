@@ -9,6 +9,7 @@ export const getRegistData = (state) => {
     password: state.authData.password,
   };
 };
+import { createSelector } from 'reselect';
 
 export const getLogInData = (state) => {
   return {
@@ -32,3 +33,21 @@ export const getIsFetching = (state) => {
 export const getIsAddInput = (state) => {
   return state.columnsData.isAddInput;
 };
+
+export const getNewColumnTitle = (state) => {
+  return state.columnsData.columnTitle;
+};
+
+export const getNewColumnDescription = (state) => {
+  return state.columnsData.columnDescription;
+};
+
+export const getColumnData = createSelector(
+  [getNewColumnTitle, getNewColumnDescription],
+  (title, description) => {
+    return {
+      title,
+      description,
+    };
+  },
+);

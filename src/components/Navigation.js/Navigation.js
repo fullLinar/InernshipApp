@@ -6,8 +6,9 @@ import RegistrationScreen from '../../screens/RegistrationScreen';
 import { connect } from 'react-redux';
 import { getAuth } from '../../selectors/selectors';
 import myDeskScreen from '../../screens/MyDeskScreen';
-import AddHeaderButton from '../common/AddHeaderButton';
+import AddButton from '../common/AddButton';
 import { toggleIsAddInput } from '../../actions/columnActions';
+import ColumnScreen from '../../screens/ColumnScreen';
 
 const Navigation = ({ isAuth, toggleIsAddInput }) => {
   const Stack = createStackNavigator();
@@ -22,15 +23,26 @@ const Navigation = ({ isAuth, toggleIsAddInput }) => {
             <Stack.Screen name="Registration" component={RegistrationScreen} />
           </>
         ) : (
-          <Stack.Screen
-            name="My Desk"
-            component={myDeskScreen}
-            options={{
-              headerRight: () => (
-                <AddHeaderButton onPress={() => toggleIsAddInput()} />
-              ),
-            }}
-          />
+          <>
+            <Stack.Screen
+              name="My Desk"
+              component={myDeskScreen}
+              options={{
+                headerRight: () => (
+                  <AddButton
+                    onPress={() => toggleIsAddInput()}
+                    width={16}
+                    height={16}
+                  />
+                ),
+              }}
+            />
+            <Stack.Screen
+              name="Column"
+              component={ColumnScreen}
+              options={({ route }) => ({ title: route.params.title })}
+            />
+          </>
         )}
       </Stack.Navigator>
     </NavigationContainer>
