@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, FlatList, TextInput, Button } from 'react-native';
+import { View, FlatList, StyleSheet } from 'react-native';
 import ColumnButton from '../common/ColumnButton/ColumnButton';
 import AddInput from '../common/AddInput';
 import Preloader from '../Preloader/Preloader';
@@ -12,16 +12,17 @@ const MyDesk = (props) => {
         onPress={() =>
           props.navigation.navigate('Column', {
             title: item.title,
+            colId: item.id,
           })
         }
       />
     );
   };
   return (
-    <View style={{ backgroundColor: '#fff', padding: 15, flex: 1 }}>
+    <View style={styles.container}>
       {props.isAddInput ? (
         <AddInput
-          setColumnTitle={props.setColumnTitle}
+          onChange={props.setColumnTitle}
           onPress={props.setNewColumn}
           width={24}
           height={24}
@@ -41,5 +42,13 @@ const MyDesk = (props) => {
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: '#fff',
+    padding: 15,
+    flex: 1,
+  },
+});
 
 export default MyDesk;

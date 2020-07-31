@@ -1,6 +1,9 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+import {
+  createStackNavigator,
+  HeaderBackButton,
+} from '@react-navigation/stack';
 import LoginScreen from '../../screens/loginScreen';
 import RegistrationScreen from '../../screens/RegistrationScreen';
 import { connect } from 'react-redux';
@@ -40,7 +43,10 @@ const Navigation = ({ isAuth, toggleIsAddInput }) => {
             <Stack.Screen
               name="Column"
               component={ColumnScreen}
-              options={({ route }) => ({ title: route.params.title })}
+              options={({ route }) => ({
+                title: route.params.title,
+                colId: route.params.colId,
+              })}
             />
           </>
         )}

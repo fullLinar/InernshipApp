@@ -2,13 +2,13 @@ import { createStore, combineReducers, applyMiddleware } from 'redux';
 import reduxThunk from 'redux-thunk';
 import authReducer from '../reducers/authReducer';
 import columnsReducer from '../reducers/columnsReducer';
-import prayerReducer from '../reducers/prayerReducer';
 import commentReducer from '../reducers/commentReducer';
+import prayersReducer from '../reducers/prayersReducer';
 
 const reducers = combineReducers({
   authData: authReducer,
   columnsData: columnsReducer,
-  prayerData: prayerReducer,
+  prayersData: prayersReducer,
   commentData: commentReducer,
 });
 

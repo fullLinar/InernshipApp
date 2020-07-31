@@ -6,7 +6,6 @@ import {
   SET_COLUMN_TITLE,
 } from '../reducers/columnsReducer';
 import { getColumnsFromAPI, setColumn } from '../api/api';
-import AsyncStorage from '@react-native-community/async-storage';
 
 const fetchColumns = (columns) => {
   return {
@@ -41,7 +40,6 @@ export const setColumnsFromAPI = (token) => {
 
     getColumnsFromAPI(token).then(({ data }) => {
       dispatch(fetchColumns(data));
-
       dispatch({
         type: ON_CHAGE_IS_FETCHING,
         payload: { isFetching: false },
