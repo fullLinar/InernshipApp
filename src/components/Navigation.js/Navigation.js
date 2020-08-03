@@ -12,6 +12,7 @@ import myDeskScreen from '../../screens/MyDeskScreen';
 import AddButton from '../common/AddButton';
 import { toggleIsAddInput } from '../../actions/columnActions';
 import ColumnScreen from '../../screens/ColumnScreen';
+import SettingButton from '../common/SettingButton/SettingButton';
 
 const Navigation = ({ isAuth, toggleIsAddInput }) => {
   const Stack = createStackNavigator();
@@ -46,6 +47,8 @@ const Navigation = ({ isAuth, toggleIsAddInput }) => {
               options={({ route }) => ({
                 title: route.params.title,
                 colId: route.params.colId,
+                headerRight: () => <SettingButton />,
+                headerLeft: null,
               })}
             />
           </>

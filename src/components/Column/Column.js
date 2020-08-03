@@ -15,13 +15,21 @@ const Column = (props) => {
 
   const rederCheckedPrayers = () => {
     return checkedPrayers.map((prayer) => (
-      <PrayerButton title={prayer.title} isChecked={prayer.checked} />
+      <PrayerButton
+        title={prayer.title}
+        isChecked={prayer.checked}
+        key={prayer.id.toString()}
+      />
     ));
   };
 
   const rederUnCheckedPrayers = () => {
     return uncheckedPrayers.map((prayer) => (
-      <PrayerButton title={prayer.title} isChecked={prayer.checked} />
+      <PrayerButton
+        title={prayer.title}
+        isChecked={prayer.checked}
+        key={prayer.id.toString()}
+      />
     ));
   };
 
@@ -39,7 +47,7 @@ const Column = (props) => {
               onPress={props.setNewPrayerToAPI}
             />
           </View>
-          <View>{rederCheckedPrayers()}</View>
+          <View>{rederUnCheckedPrayers()}</View>
           {!props.isShowChecked ? (
             <View style={styles.prayeBtnWrap}>
               <CustomButton
@@ -55,7 +63,7 @@ const Column = (props) => {
               />
             </View>
           )}
-          {props.isShowChecked ? <View>{rederUnCheckedPrayers()}</View> : <></>}
+          {props.isShowChecked ? <View>{rederCheckedPrayers()}</View> : <></>}
         </View>
       )}
     </ScrollView>

@@ -1,6 +1,15 @@
 import axios from 'axios';
 import AsyncStorage from '@react-native-community/async-storage';
 
+export const retrieveToken = async () => {
+  try {
+    let token = await AsyncStorage.getItem('token');
+    return token;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 const axiosInstance = axios.create({
   baseURL: 'https://trello-purrweb.herokuapp.com/',
 });
@@ -30,6 +39,24 @@ export const getColumnsFromAPI = (token) => {
 
 export const setColumn = (columnData, token) => {
   return axiosInstance.post('columns', columnData, {
+    headers: {
+      Authorization: 'Bearer ' + token,
+      'Content-Type': 'application/json',
+    },
+  });
+};
+
+export const deleteColumn = (colId, token) => {
+  return axiosInstance.delete(`columns/${colId}`, {
+    headers: {
+      Authorization: 'Bearer ' + token,
+      'Content-Type': 'application/json',
+    },
+  });
+};
+
+export const editColumnData = (columnData, colId, token) => {
+  return axiosInstance.put(`columns/${colId}`, columnData, {
     headers: {
       Authorization: 'Bearer ' + token,
       'Content-Type': 'application/json',

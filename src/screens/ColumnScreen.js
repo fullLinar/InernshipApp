@@ -2,7 +2,6 @@ import React from 'react';
 import Column from '../components/Column';
 import { connect } from 'react-redux';
 import {
-  getToken,
   getIsFetching,
   getColumnPrayers,
   getNewPrayerData,
@@ -17,15 +16,15 @@ import {
 
 class ColumnScreen extends React.Component {
   componentDidMount() {
-    this.props.setPrayersFromAPI(this.props.token);
+    this.props.setPrayersFromAPI();
   }
   onChangeTitle = (titleText) => {
     this.props.onChageNewPrayerTitle(titleText);
   };
   setNewPrayerToAPI = () => {
-    const { newPrayerData, token } = this.props;
+    const { newPrayerData } = this.props;
     if (newPrayerData.title !== '') {
-      this.props.setPrayerToAPI(newPrayerData, token);
+      this.props.setPrayerToAPI(newPrayerData);
     }
   };
   toggleShowChecked = () => {
@@ -47,7 +46,6 @@ class ColumnScreen extends React.Component {
 
 const mapStateToProps = (state, props) => {
   return {
-    token: getToken(state),
     prayers: getColumnPrayers(state, props),
     isFetching: getIsFetching(state),
     newPrayerData: getNewPrayerData(state, props),

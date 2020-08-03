@@ -5,7 +5,7 @@ import {
   TOGGLE_SHOW_CHECKED,
 } from '../reducers/prayersReducer';
 import { ON_CHAGE_IS_FETCHING } from '../reducers/columnsReducer';
-import { getPrayersFromAPI, setPrayer } from '../api/api';
+import { getPrayersFromAPI, setPrayer, retrieveToken } from '../api/api';
 
 const setPrayers = (data) => {
   return {
@@ -35,9 +35,10 @@ export const toggleShowChecked = () => {
 };
 
 //----------------Thunks-------------------
-export const setPrayersFromAPI = (token) => {
-  return (dispatch) => {
+export const setPrayersFromAPI = () => {
+  return async (dispatch) => {
     dispatch({ type: ON_CHAGE_IS_FETCHING, payload: { isFetching: true } });
+    const token = await retrieveToken();
 
     getPrayersFromAPI(token).then(({ data }) => {
       dispatch(setPrayers(data));
@@ -46,9 +47,10 @@ export const setPrayersFromAPI = (token) => {
   };
 };
 
-export const setPrayerToAPI = (prayerData, token) => {
-  return (dispatch) => {
+export const setPrayerToAPI = (prayerData) => {
+  return async (dispatch) => {
     dispatch({ type: ON_CHAGE_IS_FETCHING, payload: { isFetching: true } });
+    const token = await retrieveToken();
 
     setPrayer(prayerData, token).then(({ data }) => {
       if (data.id) {

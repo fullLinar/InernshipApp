@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, TextInput, StyleSheet } from 'react-native';
 import AddButton from '../AddButton';
-const AddImput = ({ onChange, onPress, width, height }) => {
+const AddImput = ({ onChange, onPress, width, height, title, onBlur }) => {
   return (
     <View style={styles.container}>
       <AddButton width={width} height={height} onPress={onPress} />
@@ -10,6 +10,9 @@ const AddImput = ({ onChange, onPress, width, height }) => {
         autoCapitalize={'none'}
         style={styles.textInput}
         onChangeText={(newText) => onChange(newText)}
+        value={title}
+        onBlur={onBlur}
+        autoFocus={true}
       />
     </View>
   );

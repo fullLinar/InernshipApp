@@ -15,6 +15,9 @@ const MyDesk = (props) => {
             colId: item.id,
           })
         }
+        colId={item.id}
+        onPressDelete={props.deleteColumn}
+        editColumnTitle={props.editColumnTitle}
       />
     );
   };

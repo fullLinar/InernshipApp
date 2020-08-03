@@ -5,7 +5,13 @@ import {
   TOGGLE_IS_ADD_INPUT,
   SET_COLUMN_TITLE,
 } from '../reducers/columnsReducer';
-import { getColumnsFromAPI, setColumn } from '../api/api';
+import {
+  getColumnsFromAPI,
+  setColumn,
+  deleteColumn,
+  retrieveToken,
+  editColumnData,
+} from '../api/api';
 
 const fetchColumns = (columns) => {
   return {
@@ -34,9 +40,10 @@ export const setColumnTitle = (titleText) => {
   };
 };
 
-export const setColumnsFromAPI = (token) => {
-  return (dispatch) => {
+export const setColumnsFromAPI = () => {
+  return async (dispatch) => {
     dispatch({ type: ON_CHAGE_IS_FETCHING, payload: { isFetching: true } });
+    const token = await retrieveToken();
 
     getColumnsFromAPI(token).then(({ data }) => {
       dispatch(fetchColumns(data));
@@ -48,9 +55,10 @@ export const setColumnsFromAPI = (token) => {
   };
 };
 
-export const setColumnToAPI = (columnData, token) => {
-  return (dispatch) => {
+export const setColumnToAPI = (columnData) => {
+  return async (dispatch) => {
     dispatch({ type: ON_CHAGE_IS_FETCHING, payload: { isFetching: true } });
+    const token = await retrieveToken();
 
     setColumn(columnData, token).then(({ data }) => {
       if (data.id) {
@@ -63,6 +71,34 @@ export const setColumnToAPI = (columnData, token) => {
           payload: { isFetching: false },
         });
       }
+    });
+  };
+};
+
+export const deleteColumnFromAPI = (colId) => {
+  return async (dispatch) => {
+    dispatch({ type: ON_CHAGE_IS_FETCHING, payload: { isFetching: true } });
+    const token = await retrieveToken();
+
+    deleteColumn(colId, token).then(({ data }) => {
+      if (data.raw) {
+        dispatch({
+          type: ON_CHAGE_IS_FETCHING,
+          payload: { isFetching: false },
+        });
+      }
+    });
+  };
+};
+
+export const editColumnTitle = (columnData, colId) => {
+  return async (dispatch) => {
+    dispatch({ type: ON_CHAGE_IS_FETCHING, payload: { isFetching: true } });
+    const token = await retrieveToken();
+
+    editColumnData(columnData, colId, token).then((response) => {
+      console.log(response);
+      dispatch({ type: ON_CHAGE_IS_FETCHING, payload: { isFetching: false } });
     });
   };
 };
