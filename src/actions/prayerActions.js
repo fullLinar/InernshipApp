@@ -5,7 +5,13 @@ import {
   TOGGLE_SHOW_CHECKED,
 } from '../reducers/prayersReducer';
 import { ON_CHAGE_IS_FETCHING } from '../reducers/columnsReducer';
-import { getPrayersFromAPI, setPrayer, retrieveToken } from '../api/api';
+import {
+  getPrayersFromAPI,
+  setPrayer,
+  retrieveToken,
+  toggleCheckedPrayer,
+  deletePrayer,
+} from '../api/api';
 
 const setPrayers = (data) => {
   return {
@@ -40,7 +46,7 @@ export const setPrayersFromAPI = () => {
     dispatch({ type: ON_CHAGE_IS_FETCHING, payload: { isFetching: true } });
     const token = await retrieveToken();
 
-    getPrayersFromAPI(token).then(({ data }) => {
+    return getPrayersFromAPI(token).then(({ data }) => {
       dispatch(setPrayers(data));
       dispatch({ type: ON_CHAGE_IS_FETCHING, payload: { isFetching: false } });
     });
@@ -49,18 +55,28 @@ export const setPrayersFromAPI = () => {
 
 export const setPrayerToAPI = (prayerData) => {
   return async (dispatch) => {
-    dispatch({ type: ON_CHAGE_IS_FETCHING, payload: { isFetching: true } });
     const token = await retrieveToken();
 
-    setPrayer(prayerData, token).then(({ data }) => {
+    return setPrayer(prayerData, token).then(({ data }) => {
       if (data.id) {
         dispatch(fetchPrayer(data));
         dispatch(onChageNewPrayerTitle(''));
-        dispatch({
-          type: ON_CHAGE_IS_FETCHING,
-          payload: { isFetching: false },
-        });
       }
     });
+  };
+};
+
+export const setCheckedPrayerToAPI = (prayerData, prayerId) => {
+  return async (dispatch) => {
+    const token = await retrieveToken();
+
+    return toggleCheckedPrayer(prayerData, prayerId, token);
+  };
+};
+
+export const deletePrayerFromAPI = (prayerId) => {
+  return async (dispatch) => {
+    const token = await retrieveToken();
+    return deletePrayer(prayerId, token);
   };
 };

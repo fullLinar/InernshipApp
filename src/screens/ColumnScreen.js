@@ -6,6 +6,7 @@ import {
   getColumnPrayers,
   getNewPrayerData,
   getIsShowChecked,
+  prayerColumn,
 } from '../selectors/selectors';
 import {
   setPrayersFromAPI,
@@ -34,6 +35,7 @@ class ColumnScreen extends React.Component {
     return (
       <Column
         prayers={this.props.prayers}
+        columnData={this.props.column}
         isFetching={this.props.isFetching}
         onChangeTitle={this.onChangeTitle}
         setNewPrayerToAPI={this.setNewPrayerToAPI}
@@ -50,6 +52,7 @@ const mapStateToProps = (state, props) => {
     isFetching: getIsFetching(state),
     newPrayerData: getNewPrayerData(state, props),
     isShowChecked: getIsShowChecked(state),
+    column: prayerColumn(state, props),
   };
 };
 

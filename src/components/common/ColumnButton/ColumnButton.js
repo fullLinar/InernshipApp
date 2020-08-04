@@ -8,6 +8,7 @@ const ColumnButton = ({
   onPressDelete,
   title,
   colId,
+  descr,
   editColumnTitle,
 }) => {
   const [isEditTitle, setIsEdit] = useState(false);
@@ -22,8 +23,7 @@ const ColumnButton = ({
   };
 
   const setTitle = () => {
-    console.log('de');
-    editColumnTitle(newTitle, colId);
+    editColumnTitle(newTitle, descr, colId);
   };
 
   const swipeOutBtn = [

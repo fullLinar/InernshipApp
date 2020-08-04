@@ -1,9 +1,6 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import {
-  createStackNavigator,
-  HeaderBackButton,
-} from '@react-navigation/stack';
+import { createStackNavigator } from '@react-navigation/stack';
 import LoginScreen from '../../screens/loginScreen';
 import RegistrationScreen from '../../screens/RegistrationScreen';
 import { connect } from 'react-redux';
@@ -11,8 +8,8 @@ import { getAuth } from '../../selectors/selectors';
 import myDeskScreen from '../../screens/MyDeskScreen';
 import AddButton from '../common/AddButton';
 import { toggleIsAddInput } from '../../actions/columnActions';
-import ColumnScreen from '../../screens/ColumnScreen';
 import SettingButton from '../common/SettingButton/SettingButton';
+import ColumnTabBar from '../ColumnTabBar/ColumnTabBar';
 
 const Navigation = ({ isAuth, toggleIsAddInput }) => {
   const Stack = createStackNavigator();
@@ -43,12 +40,15 @@ const Navigation = ({ isAuth, toggleIsAddInput }) => {
             />
             <Stack.Screen
               name="Column"
-              component={ColumnScreen}
+              component={ColumnTabBar}
               options={({ route }) => ({
                 title: route.params.title,
                 colId: route.params.colId,
                 headerRight: () => <SettingButton />,
                 headerLeft: null,
+                headerStyle: {
+                  shadowColor: 'transparent',
+                },
               })}
             />
           </>

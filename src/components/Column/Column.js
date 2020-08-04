@@ -2,8 +2,8 @@ import React from 'react';
 import { View, StyleSheet, ScrollView } from 'react-native';
 import Preloader from '../Preloader/Preloader';
 import AddImput from '../common/AddInput';
-import PrayerButton from '../common/PrayerButton/PrayerButton';
 import CustomButton from '../common/CustomButton';
+import PrayerScreen from '../../screens/PayerScreen';
 
 const Column = (props) => {
   const checkedPrayers = props.prayers.filter(
@@ -15,20 +15,20 @@ const Column = (props) => {
 
   const rederCheckedPrayers = () => {
     return checkedPrayers.map((prayer) => (
-      <PrayerButton
-        title={prayer.title}
-        isChecked={prayer.checked}
+      <PrayerScreen
+        prayer={prayer}
         key={prayer.id.toString()}
+        columnData={props.columnData}
       />
     ));
   };
 
   const rederUnCheckedPrayers = () => {
     return uncheckedPrayers.map((prayer) => (
-      <PrayerButton
-        title={prayer.title}
-        isChecked={prayer.checked}
+      <PrayerScreen
+        prayer={prayer}
         key={prayer.id.toString()}
+        columnData={props.columnData}
       />
     ));
   };

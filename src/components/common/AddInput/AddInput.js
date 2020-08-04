@@ -12,7 +12,6 @@ const AddImput = ({ onChange, onPress, width, height, title, onBlur }) => {
         onChangeText={(newText) => onChange(newText)}
         value={title}
         onBlur={onBlur}
-        autoFocus={true}
       />
     </View>
   );

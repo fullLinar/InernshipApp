@@ -80,14 +80,12 @@ export const deleteColumnFromAPI = (colId) => {
     dispatch({ type: ON_CHAGE_IS_FETCHING, payload: { isFetching: true } });
     const token = await retrieveToken();
 
-    deleteColumn(colId, token).then(({ data }) => {
-      if (data.raw) {
-        dispatch({
-          type: ON_CHAGE_IS_FETCHING,
-          payload: { isFetching: false },
-        });
-      }
-    });
+    return deleteColumn(colId, token).then(
+      dispatch({
+        type: ON_CHAGE_IS_FETCHING,
+        payload: { isFetching: false },
+      }),
+    );
   };
 };
 
@@ -96,9 +94,8 @@ export const editColumnTitle = (columnData, colId) => {
     dispatch({ type: ON_CHAGE_IS_FETCHING, payload: { isFetching: true } });
     const token = await retrieveToken();
 
-    editColumnData(columnData, colId, token).then((response) => {
-      console.log(response);
-      dispatch({ type: ON_CHAGE_IS_FETCHING, payload: { isFetching: false } });
-    });
+    return editColumnData(columnData, colId, token).then(
+      dispatch({ type: ON_CHAGE_IS_FETCHING, payload: { isFetching: false } }),
+    );
   };
 };

@@ -73,7 +73,7 @@ export const getColumnPrayers = createSelector(
   },
 );
 
-const prayerColumn = createSelector(
+export const prayerColumn = createSelector(
   [getColumnId, getColumnsList],
   (colId, columnList) => {
     let column = {};

@@ -1,7 +1,7 @@
 import React from 'react';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { View } from 'react-native';
-import SettingIcon from '../../SvgIcons/setting';
+import SettingIcon from '../../SvgIcons/SettingIcon';
 
 const SettingButton = ({ onPress }) => {
   return (

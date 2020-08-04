@@ -30,15 +30,15 @@ class MyDeskScreen extends React.Component {
     this.props.setColumnTitle(titleText);
   };
 
-  deleteColumn = (colId) => {
-    this.props.deleteColumnFromAPI(colId);
-    this.props.setColumnsFromAPI();
+  deleteColumn = async (colId) => {
+    await this.props.deleteColumnFromAPI(colId);
+    await this.props.setColumnsFromAPI();
   };
 
-  editColumnTitle = (colTitle, colId) => {
+  editColumnTitle = (colTitle, descr, colId) => {
     let columnData = {
       title: colTitle,
-      description: '',
+      description: descr,
     };
     this.props.editColumnTitle(columnData, colId);
     this.props.setColumnsFromAPI();

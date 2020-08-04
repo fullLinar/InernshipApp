@@ -81,3 +81,21 @@ export const setPrayer = (prayerData, token) => {
     },
   });
 };
+
+export const toggleCheckedPrayer = (prayerData, prayerId, token) => {
+  return axiosInstance.put(`cards/${prayerId}`, prayerData, {
+    headers: {
+      Authorization: 'Bearer ' + token,
+      'Content-Type': 'application/json',
+    },
+  });
+};
+
+export const deletePrayer = (prayerId, token) => {
+  return axiosInstance.delete(`cards/${prayerId}`, {
+    headers: {
+      Authorization: 'Bearer ' + token,
+      'Content-Type': 'application/json',
+    },
+  });
+};
