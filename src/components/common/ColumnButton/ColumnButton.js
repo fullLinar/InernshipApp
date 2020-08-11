@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { TouchableOpacity, Text, StyleSheet } from 'react-native';
 import Swipeout from 'react-native-swipeout';
-import AddImput from '../AddInput';
+import AddInput from '../AddInput';
 
 const ColumnButton = ({
   onPress,
@@ -45,7 +45,7 @@ const ColumnButton = ({
           </TouchableOpacity>
         </Swipeout>
       ) : (
-        <AddImput
+        <AddInput
           width={24}
           height={24}
           onPress={setTitle}

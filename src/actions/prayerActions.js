@@ -1,10 +1,11 @@
 import {
   FETCH_PRAYERS,
   FETCH_PRAYER,
-  ON_CHANGE_NEW_PRAYER_TITLE,
+  FETCH_CHANGED_CHECKED,
+  FETCH_DELETED_PRAYER,
   TOGGLE_SHOW_CHECKED,
 } from '../reducers/prayersReducer';
-import { ON_CHAGE_IS_FETCHING } from '../reducers/columnsReducer';
+import { toggleIsFetching } from './columnActions';
 import {
   getPrayersFromAPI,
   setPrayer,
@@ -27,10 +28,20 @@ const fetchPrayer = (data) => {
   };
 };
 
-export const onChageNewPrayerTitle = (titleText) => {
+const fetchChangedChecked = (prayerId, checked) => {
   return {
-    type: ON_CHANGE_NEW_PRAYER_TITLE,
-    payload: { titleText },
+    type: FETCH_CHANGED_CHECKED,
+    payload: {
+      prayerId,
+      checked,
+    },
+  };
+};
+
+const fetchDeletedPrayer = (prayerId) => {
+  return {
+    type: FETCH_DELETED_PRAYER,
+    payload: { prayerId },
   };
 };
 
@@ -43,24 +54,24 @@ export const toggleShowChecked = () => {
 //----------------Thunks-------------------
 export const setPrayersFromAPI = () => {
   return async (dispatch) => {
-    dispatch({ type: ON_CHAGE_IS_FETCHING, payload: { isFetching: true } });
+    dispatch(toggleIsFetching(true));
     const token = await retrieveToken();
 
     return getPrayersFromAPI(token).then(({ data }) => {
       dispatch(setPrayers(data));
-      dispatch({ type: ON_CHAGE_IS_FETCHING, payload: { isFetching: false } });
+      dispatch(toggleIsFetching(false));
     });
   };
 };
 
 export const setPrayerToAPI = (prayerData) => {
   return async (dispatch) => {
+    dispatch(toggleIsFetching(true));
     const token = await retrieveToken();
-
     return setPrayer(prayerData, token).then(({ data }) => {
       if (data.id) {
         dispatch(fetchPrayer(data));
-        dispatch(onChageNewPrayerTitle(''));
+        dispatch(toggleIsFetching(false));
       }
     });
   };
@@ -68,15 +79,27 @@ export const setPrayerToAPI = (prayerData) => {
 
 export const setCheckedPrayerToAPI = (prayerData, prayerId) => {
   return async (dispatch) => {
+    dispatch(toggleIsFetching(true));
     const token = await retrieveToken();
 
-    return toggleCheckedPrayer(prayerData, prayerId, token);
+    return toggleCheckedPrayer(prayerData, prayerId, token).then(({ data }) => {
+      if (data.id) {
+        dispatch(fetchChangedChecked(prayerId, data.checked));
+        dispatch(toggleIsFetching(false));
+      }
+    });
   };
 };
 
 export const deletePrayerFromAPI = (prayerId) => {
   return async (dispatch) => {
+    dispatch(toggleIsFetching(true));
     const token = await retrieveToken();
-    return deletePrayer(prayerId, token);
+    return deletePrayer(prayerId, token).then(({ data }) => {
+      if (data.raw) {
+        dispatch(fetchDeletedPrayer(prayerId));
+        dispatch(toggleIsFetching(false));
+      }
+    });
   };
 };

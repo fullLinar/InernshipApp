@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, TextInput, StyleSheet } from 'react-native';
 import AddButton from '../AddButton';
-const AddImput = ({ onChange, onPress, width, height, title, onBlur }) => {
+const AddInput = ({ onChange, onPress, width, height, title, onBlur }) => {
   return (
     <View style={styles.container}>
       <AddButton width={width} height={height} onPress={onPress} />
@@ -35,4 +35,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AddImput;
+export default AddInput;

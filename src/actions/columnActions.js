@@ -1,9 +1,10 @@
 import {
   FETCH_COLUMNS,
   FETCH_COLUMN,
-  ON_CHAGE_IS_FETCHING,
+  FETCH_CHANGED_TITLE,
+  FETCH_DELETED_COLUMN,
+  ON_CHANGE_IS_FETCHING,
   TOGGLE_IS_ADD_INPUT,
-  SET_COLUMN_TITLE,
 } from '../reducers/columnsReducer';
 import {
   getColumnsFromAPI,
@@ -27,49 +28,58 @@ const fetchColumn = (column) => {
   };
 };
 
+const fetchNewColumnTitle = (colId, title) => {
+  return {
+    type: FETCH_CHANGED_TITLE,
+    payload: {
+      colId,
+      title,
+    },
+  };
+};
+
+const fetchDeletedColumn = (colId) => {
+  return {
+    type: FETCH_DELETED_COLUMN,
+    payload: { colId },
+  };
+};
+
+export const toggleIsFetching = (isFetching) => {
+  return {
+    type: ON_CHANGE_IS_FETCHING,
+    payload: { isFetching },
+  };
+};
+
 export const toggleIsAddInput = () => {
   return {
     type: TOGGLE_IS_ADD_INPUT,
   };
 };
 
-export const setColumnTitle = (titleText) => {
-  return {
-    type: SET_COLUMN_TITLE,
-    payload: { titleText },
-  };
-};
-
 export const setColumnsFromAPI = () => {
   return async (dispatch) => {
-    dispatch({ type: ON_CHAGE_IS_FETCHING, payload: { isFetching: true } });
+    dispatch(toggleIsFetching(true));
     const token = await retrieveToken();
 
     getColumnsFromAPI(token).then(({ data }) => {
       dispatch(fetchColumns(data));
-      dispatch({
-        type: ON_CHAGE_IS_FETCHING,
-        payload: { isFetching: false },
-      });
+      dispatch(toggleIsFetching(false));
     });
   };
 };
 
 export const setColumnToAPI = (columnData) => {
   return async (dispatch) => {
-    dispatch({ type: ON_CHAGE_IS_FETCHING, payload: { isFetching: true } });
+    dispatch(toggleIsFetching(true));
     const token = await retrieveToken();
 
     setColumn(columnData, token).then(({ data }) => {
       if (data.id) {
         dispatch(fetchColumn(data));
         dispatch(toggleIsAddInput());
-        dispatch(setColumnTitle(''));
-
-        dispatch({
-          type: ON_CHAGE_IS_FETCHING,
-          payload: { isFetching: false },
-        });
+        dispatch(toggleIsFetching(false));
       }
     });
   };
@@ -77,25 +87,24 @@ export const setColumnToAPI = (columnData) => {
 
 export const deleteColumnFromAPI = (colId) => {
   return async (dispatch) => {
-    dispatch({ type: ON_CHAGE_IS_FETCHING, payload: { isFetching: true } });
+    dispatch(toggleIsFetching(true));
     const token = await retrieveToken();
 
     return deleteColumn(colId, token).then(
-      dispatch({
-        type: ON_CHAGE_IS_FETCHING,
-        payload: { isFetching: false },
-      }),
+      dispatch(fetchDeletedColumn(colId)),
+      dispatch(toggleIsFetching(false)),
     );
   };
 };
 
 export const editColumnTitle = (columnData, colId) => {
   return async (dispatch) => {
-    dispatch({ type: ON_CHAGE_IS_FETCHING, payload: { isFetching: true } });
+    dispatch(toggleIsFetching(true));
     const token = await retrieveToken();
 
-    return editColumnData(columnData, colId, token).then(
-      dispatch({ type: ON_CHAGE_IS_FETCHING, payload: { isFetching: false } }),
-    );
+    return editColumnData(columnData, colId, token).then(({ data }) => {
+      dispatch(fetchNewColumnTitle(data.id, data.title));
+      dispatch(toggleIsFetching(false));
+    });
   };
 };

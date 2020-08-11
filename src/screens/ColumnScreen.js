@@ -4,28 +4,33 @@ import { connect } from 'react-redux';
 import {
   getIsFetching,
   getColumnPrayers,
-  getNewPrayerData,
   getIsShowChecked,
   prayerColumn,
 } from '../selectors/selectors';
 import {
   setPrayersFromAPI,
-  onChageNewPrayerTitle,
   setPrayerToAPI,
   toggleShowChecked,
 } from '../actions/prayerActions';
 
 class ColumnScreen extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      title: '',
+      description: '',
+      column: this.props.column,
+    };
+  }
   componentDidMount() {
     this.props.setPrayersFromAPI();
   }
   onChangeTitle = (titleText) => {
-    this.props.onChageNewPrayerTitle(titleText);
+    this.setState({ title: titleText });
   };
   setNewPrayerToAPI = () => {
-    const { newPrayerData } = this.props;
-    if (newPrayerData.title !== '') {
-      this.props.setPrayerToAPI(newPrayerData);
+    if (this.state.title !== '') {
+      this.props.setPrayerToAPI(this.state);
     }
   };
   toggleShowChecked = () => {
@@ -50,7 +55,6 @@ const mapStateToProps = (state, props) => {
   return {
     prayers: getColumnPrayers(state, props),
     isFetching: getIsFetching(state),
-    newPrayerData: getNewPrayerData(state, props),
     isShowChecked: getIsShowChecked(state),
     column: prayerColumn(state, props),
   };
@@ -58,7 +62,6 @@ const mapStateToProps = (state, props) => {
 
 const mapDispatchToProps = {
   setPrayersFromAPI,
-  onChageNewPrayerTitle,
   setPrayerToAPI,
   toggleShowChecked,
 };

@@ -1,29 +1,23 @@
 export const FETCH_COLUMNS = 'FETCH-COLUMNS';
 export const FETCH_COLUMN = 'FETCH-COLUMN';
-export const ON_CHAGE_IS_FETCHING = 'ON-CHANGE-IS-FETCHING';
+export const FETCH_CHANGED_TITLE = 'FETCH-CHANGED-TITLE';
+export const FETCH_DELETED_COLUMN = 'FETCH-DELETED-COLUMN';
+export const ON_CHANGE_IS_FETCHING = 'ON-CHANGE-IS-FETCHING';
 export const TOGGLE_IS_ADD_INPUT = 'TOGGLE-IS-ADD-INPUT';
-export const SET_COLUMN_TITLE = 'SET-COLUMN-TITLE';
 
 const initialState = {
   isFetching: false,
   isAddInput: false,
-  columnTitle: '',
-  columnDescription: '',
   columns: [],
 };
 const actionMap = {
-  [ON_CHAGE_IS_FETCHING]: (state, action) => {
+  [ON_CHANGE_IS_FETCHING]: (state, action) => {
     return {
       ...state,
       isFetching: action.payload.isFetching,
     };
   },
-  [SET_COLUMN_TITLE]: (state, action) => {
-    return {
-      ...state,
-      columnTitle: action.payload.titleText,
-    };
-  },
+
   [FETCH_COLUMNS]: (state, action) => {
     return {
       ...state,
@@ -33,7 +27,30 @@ const actionMap = {
   [FETCH_COLUMN]: (state, action) => {
     return {
       ...state,
-      columns: [...state.columns, action.payload.column],
+      columns: [action.payload.column, ...state.columns],
+    };
+  },
+  [FETCH_CHANGED_TITLE]: (state, action) => {
+    return {
+      ...state,
+      columns: state.columns.map((column) => {
+        if (column.id === action.payload.colId) {
+          return {
+            ...column,
+            title: action.payload.title,
+          };
+        } else {
+          return column;
+        }
+      }),
+    };
+  },
+  [FETCH_DELETED_COLUMN]: (state, action) => {
+    return {
+      ...state,
+      columns: state.columns.filter(
+        (column) => column.id !== action.payload.colId,
+      ),
     };
   },
   [TOGGLE_IS_ADD_INPUT]: (state) => {

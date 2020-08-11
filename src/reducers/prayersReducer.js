@@ -1,12 +1,10 @@
 export const FETCH_PRAYERS = 'FETCH-PRAYERS';
 export const FETCH_PRAYER = 'FETCH-PRAYER';
-export const ON_CHANGE_NEW_PRAYER_TITLE = 'ON-CHANGE-NEW-PRAYER-TITLE';
+export const FETCH_CHANGED_CHECKED = 'FETCH-CHANGED-CHECKED';
 export const TOGGLE_SHOW_CHECKED = 'TOGGLE-SHOW-CHECKED';
-
+export const FETCH_DELETED_PRAYER = 'FETCH-DELETED-PRAYER';
 const initialState = {
   isShowCheckedPrayers: true,
-  title: '',
-  description: '',
   prayers: [],
 };
 
@@ -23,10 +21,27 @@ const actionMap = {
       prayers: [...state.prayers, action.payload.data],
     };
   },
-  [ON_CHANGE_NEW_PRAYER_TITLE]: (state, action) => {
+  [FETCH_CHANGED_CHECKED]: (state, action) => {
     return {
       ...state,
-      title: action.payload.titleText,
+      prayers: state.prayers.map((prayer) => {
+        if (prayer.id === action.payload.prayerId) {
+          return {
+            ...prayer,
+            checked: action.payload.checked,
+          };
+        } else {
+          return prayer;
+        }
+      }),
+    };
+  },
+  [FETCH_DELETED_PRAYER]: (state, action) => {
+    return {
+      ...state,
+      prayers: state.prayers.filter(
+        (prayer) => prayer.id !== action.payload.prayerId,
+      ),
     };
   },
   [TOGGLE_SHOW_CHECKED]: (state) => {

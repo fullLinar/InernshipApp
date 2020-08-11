@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, StyleSheet, ScrollView } from 'react-native';
 import Preloader from '../Preloader/Preloader';
-import AddImput from '../common/AddInput';
+import AddInput from '../common/AddInput';
 import CustomButton from '../common/CustomButton';
 import PrayerScreen from '../../screens/PayerScreen';
 
@@ -13,7 +13,7 @@ const Column = (props) => {
     (prayer) => prayer.checked === false,
   );
 
-  const rederCheckedPrayers = () => {
+  const renderCheckedPrayers = () => {
     return checkedPrayers.map((prayer) => (
       <PrayerScreen
         prayer={prayer}
@@ -23,7 +23,7 @@ const Column = (props) => {
     ));
   };
 
-  const rederUnCheckedPrayers = () => {
+  const renderUnCheckedPrayers = () => {
     return uncheckedPrayers.map((prayer) => (
       <PrayerScreen
         prayer={prayer}
@@ -40,30 +40,30 @@ const Column = (props) => {
       ) : (
         <View>
           <View>
-            <AddImput
+            <AddInput
               width={24}
               height={24}
               onChange={props.onChangeTitle}
               onPress={props.setNewPrayerToAPI}
             />
           </View>
-          <View>{rederUnCheckedPrayers()}</View>
+          <View>{renderUnCheckedPrayers()}</View>
           {!props.isShowChecked ? (
-            <View style={styles.prayeBtnWrap}>
+            <View style={styles.prayerBtnWrap}>
               <CustomButton
                 title="show Answered Prayers"
                 onPress={props.toggleShowChecked}
               />
             </View>
           ) : (
-            <View style={styles.prayeBtnWrap}>
+            <View style={styles.prayerBtnWrap}>
               <CustomButton
                 title="hidden Answered Prayers"
                 onPress={props.toggleShowChecked}
               />
             </View>
           )}
-          {props.isShowChecked ? <View>{rederCheckedPrayers()}</View> : <></>}
+          {props.isShowChecked ? <View>{renderCheckedPrayers()}</View> : <></>}
         </View>
       )}
     </ScrollView>
@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
     padding: 15,
     flex: 1,
   },
-  prayeBtnWrap: {
+  prayerBtnWrap: {
     alignItems: 'center',
     width: '100%',
     marginTop: 21,

@@ -1,16 +1,23 @@
 import React from 'react';
-import { View, Text } from 'react-native';
-import { styles } from '../../styles/styles';
+import { View, StyleSheet } from 'react-native';
 import AnimatedEllipsis from 'react-native-animated-ellipsis';
 
 const Preloader = (props) => {
   return (
     <>
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <AnimatedEllipsis style={{ fontSize: 72 }} animationDelay={150} />
+      <View style={styles.container}>
+        <AnimatedEllipsis style={styles.ellipsis} animationDelay={150} />
       </View>
     </>
   );
 };
 
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  ellipsis: { fontSize: 72 },
+});
 export default Preloader;

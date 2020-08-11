@@ -7,7 +7,7 @@ const Tab = createMaterialTopTabNavigator();
 
 const ColumnTabBar = ({ route }) => {
   return (
-    <Tab.Navigator>
+    <Tab.Navigator swipeEnabled={false}>
       <Tab.Screen
         name="My Prayers"
         component={ColumnScreen}

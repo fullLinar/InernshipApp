@@ -8,7 +8,7 @@ import {
 } from '../actions/prayerActions';
 
 class PrayerScreen extends React.Component {
-  toggleCheckedPrayer = async () => {
+  toggleCheckedPrayer = () => {
     const prayerId = this.props.prayer.id;
     const prayerData = {
       title: this.props.prayer.title,
@@ -16,8 +16,7 @@ class PrayerScreen extends React.Component {
       checked: this.props.prayer.checked ? false : true,
       column: this.props.columnData,
     };
-    await this.props.setCheckedPrayerToAPI(prayerData, prayerId);
-    await this.props.setPrayersFromAPI();
+    this.props.setCheckedPrayerToAPI(prayerData, prayerId);
   };
 
   deletePrayer = async () => {

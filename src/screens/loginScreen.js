@@ -1,19 +1,25 @@
 import React from 'react';
 import LogIn from '../components/LogIn';
 import { connect } from 'react-redux';
-import { setEmail, setPassword, submitLogIn } from '../actions/authActions';
-import { getLogInData } from '../selectors/selectors';
+import { submitLogIn } from '../actions/authActions';
 class LoginScreen extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      email: '',
+      password: '',
+    };
+  }
   logIn = () => {
-    this.props.submitLogIn(this.props.logInData);
+    this.props.submitLogIn(this.state);
   };
 
   onChangeEmail = (emailText) => {
-    this.props.setEmail({ emailText });
+    this.setState({ email: emailText });
   };
 
   onChangePassword = (passText) => {
-    this.props.setPassword({ passText });
+    this.setState({ password: passText });
   };
   render() {
     return (
@@ -22,20 +28,16 @@ class LoginScreen extends React.Component {
         logIn={this.logIn}
         onChangeEmail={this.onChangeEmail}
         onChangePassword={this.onChangePassword}
-        email={this.props.logInData.email}
-        pass={this.props.logInData.password}
+        email={this.state.email}
+        pass={this.state.password}
       />
     );
   }
 }
 const mapStateToProps = (state) => {
-  return {
-    logInData: getLogInData(state),
-  };
+  return {};
 };
 const mapDispatchToProps = {
   submitLogIn,
-  setEmail,
-  setPassword,
 };
 export default connect(mapStateToProps, mapDispatchToProps)(LoginScreen);

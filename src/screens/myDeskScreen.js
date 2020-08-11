@@ -5,34 +5,37 @@ import {
   getColumnsList,
   getIsFetching,
   getIsAddInput,
-  getColumnData,
 } from '../selectors/selectors';
 import {
   setColumnsFromAPI,
   setColumnToAPI,
-  setColumnTitle,
   deleteColumnFromAPI,
   editColumnTitle,
 } from '../actions/columnActions';
 class MyDeskScreen extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      title: '',
+      description: '',
+    };
+  }
   componentDidMount() {
     this.props.setColumnsFromAPI();
   }
 
   setNewColumn = () => {
-    const { newColumnData } = this.props;
-    if (newColumnData.title !== '') {
-      this.props.setColumnToAPI(newColumnData);
+    if (this.state.title !== '') {
+      this.props.setColumnToAPI(this.state);
     }
   };
 
   setColumnTitle = (titleText) => {
-    this.props.setColumnTitle(titleText);
+    this.setState({ title: titleText });
   };
 
   deleteColumn = async (colId) => {
     await this.props.deleteColumnFromAPI(colId);
-    await this.props.setColumnsFromAPI();
   };
 
   editColumnTitle = (colTitle, descr, colId) => {
@@ -41,7 +44,6 @@ class MyDeskScreen extends React.Component {
       description: descr,
     };
     this.props.editColumnTitle(columnData, colId);
-    this.props.setColumnsFromAPI();
   };
   render() {
     return (
@@ -64,7 +66,6 @@ const mapStateToProps = (state) => {
     columns: getColumnsList(state),
     isFetching: getIsFetching(state),
     isAddInput: getIsAddInput(state),
-    newColumnData: getColumnData(state),
   };
 };
 
@@ -72,7 +73,6 @@ const mapDispatchToProps = {
   setColumnsFromAPI,
   setColumnToAPI,
   deleteColumnFromAPI,
-  setColumnTitle,
   editColumnTitle,
 };
 

@@ -1,28 +1,30 @@
 import React from 'react';
 import Registration from '../components/Registration';
 import { connect } from 'react-redux';
-import {
-  setName,
-  setEmail,
-  setPassword,
-  submitRegistration,
-} from '../actions/authActions';
-import { getRegistData } from '../selectors/selectors';
+import { submitRegistration } from '../actions/authActions';
 class RegistrationScreen extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      name: '',
+      email: '',
+      password: '',
+    };
+  }
   submitRegistrationData = () => {
-    this.props.submitRegistration(this.props.registData);
+    this.props.submitRegistration(this.state);
   };
 
   onChangeName = (nameText) => {
-    this.props.setName({ nameText });
+    this.setState({ name: nameText });
   };
 
   onChangeEmail = (emailText) => {
-    this.props.setEmail({ emailText });
+    this.setState({ email: emailText });
   };
 
   onChangePassword = (passText) => {
-    this.props.setPassword({ passText });
+    this.setState({ password: passText });
   };
   render() {
     return (
@@ -32,24 +34,19 @@ class RegistrationScreen extends React.Component {
         onChangeName={this.onChangeName}
         onChangeEmail={this.onChangeEmail}
         onChangePassword={this.onChangePassword}
-        email={this.props.registData.email}
-        pass={this.props.registData.password}
-        name={this.props.registData.name}
+        email={this.state.email}
+        pass={this.state.password}
+        name={this.state.name}
       />
     );
   }
 }
 
 const mapStateToProps = (state) => {
-  return {
-    registData: getRegistData(state),
-  };
+  return {};
 };
 
 const mapDispatchToProps = {
-  setName,
-  setEmail,
-  setPassword,
   submitRegistration,
 };
 export default connect(mapStateToProps, mapDispatchToProps)(RegistrationScreen);
