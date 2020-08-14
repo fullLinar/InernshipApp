@@ -24,6 +24,7 @@ class PrayerScreen extends React.Component {
     await this.props.deletePrayerFromAPI(prayerId);
     this.props.setPrayersFromAPI();
   };
+
   render() {
     return (
       <Prayer
@@ -31,6 +32,8 @@ class PrayerScreen extends React.Component {
         checked={this.props.prayer.checked}
         toggleCheckedPrayer={this.toggleCheckedPrayer}
         deletePrayer={this.deletePrayer}
+        prayerId={this.props.prayer.id}
+        navigation={this.props.navigation}
       />
     );
   }

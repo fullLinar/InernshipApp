@@ -6,14 +6,14 @@ import {
   TOGGLE_SHOW_CHECKED,
 } from '../reducers/prayersReducer';
 import { toggleIsFetching } from './columnActions';
+// import ApiService from '../utils/ApiService';
 import {
   getPrayersFromAPI,
   setPrayer,
-  retrieveToken,
   toggleCheckedPrayer,
   deletePrayer,
 } from '../api/api';
-
+import { retrieveToken } from '../utils/utils';
 const setPrayers = (data) => {
   return {
     type: FETCH_PRAYERS,

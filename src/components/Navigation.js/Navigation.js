@@ -10,6 +10,7 @@ import AddButton from '../common/AddButton';
 import { toggleIsAddInput } from '../../actions/columnActions';
 import SettingButton from '../common/SettingButton/SettingButton';
 import ColumnTabBar from '../ColumnTabBar/ColumnTabBar';
+import PrayerInfoScreen from '../../screens/PrayerInfoScreen';
 
 const Navigation = ({ isAuth, toggleIsAddInput }) => {
   const Stack = createStackNavigator();
@@ -48,6 +49,19 @@ const Navigation = ({ isAuth, toggleIsAddInput }) => {
                 headerLeft: null,
                 headerStyle: {
                   shadowColor: 'transparent',
+                },
+              })}
+            />
+            <Stack.Screen
+              name="Prayer"
+              component={PrayerInfoScreen}
+              options={({ route }) => ({
+                title: route.params.title,
+                prayerId: route.params.prayerId,
+                headerStyle: {
+                  backgroundColor: '#BFB393',
+                  shadowColor: 'transparent',
+                  height: 130,
                 },
               })}
             />

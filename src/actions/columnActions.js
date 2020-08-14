@@ -10,9 +10,10 @@ import {
   getColumnsFromAPI,
   setColumn,
   deleteColumn,
-  retrieveToken,
   editColumnData,
 } from '../api/api';
+// import ApiService from '../utils/ApiService';
+import { retrieveToken } from '../utils/utils';
 
 const fetchColumns = (columns) => {
   return {

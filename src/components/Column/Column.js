@@ -19,6 +19,7 @@ const Column = (props) => {
         prayer={prayer}
         key={prayer.id.toString()}
         columnData={props.columnData}
+        navigation={props.navigation}
       />
     ));
   };
@@ -29,6 +30,7 @@ const Column = (props) => {
         prayer={prayer}
         key={prayer.id.toString()}
         columnData={props.columnData}
+        navigation={props.navigation}
       />
     ));
   };

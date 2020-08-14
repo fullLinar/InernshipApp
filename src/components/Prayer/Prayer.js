@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import CheckBoxButton from '../common/CheckBoxButton';
 import PrayerIcon from '../SvgIcons/PrayerIcon';
 import UserIcon from '../SvgIcons/UserIcon';
@@ -20,9 +20,16 @@ const Prayer = (props) => {
           isChecked={props.checked}
           onPress={props.toggleCheckedPrayer}
         />
-        <View style={styles.contentWrap}>
+        <TouchableOpacity
+          style={styles.contentWrap}
+          onPress={() =>
+            props.navigation.navigate('Prayer', {
+              title: props.title,
+              prayerId: props.prayerId,
+            })
+          }>
           <Text style={styles.contentWrapText}>{props.title}</Text>
-        </View>
+        </TouchableOpacity>
 
         <View style={styles.iconsWrap}>
           <View style={styles.userIcon}>

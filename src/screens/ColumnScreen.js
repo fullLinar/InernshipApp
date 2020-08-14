@@ -46,6 +46,7 @@ class ColumnScreen extends React.Component {
         setNewPrayerToAPI={this.setNewPrayerToAPI}
         isShowChecked={this.props.isShowChecked}
         toggleShowChecked={this.toggleShowChecked}
+        navigation={this.props.navigation}
       />
     );
   }
