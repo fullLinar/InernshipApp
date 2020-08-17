@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export default class ApiService {
+class ApiService {
   axiosInstance = axios.create({
     baseURL: 'https://trello-purrweb.herokuapp.com/',
   });
@@ -91,3 +91,5 @@ export default class ApiService {
     });
   };
 }
+
+export default new ApiService();

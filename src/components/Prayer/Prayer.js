@@ -26,6 +26,7 @@ const Prayer = (props) => {
             props.navigation.navigate('Prayer', {
               title: props.title,
               prayerId: props.prayerId,
+              navigation: props.navigation,
             })
           }>
           <Text style={styles.contentWrapText}>{props.title}</Text>
@@ -37,7 +38,7 @@ const Prayer = (props) => {
             <Text>5</Text>
           </View>
           <View style={styles.prayerIcon}>
-            <PrayerIcon />
+            <PrayerIcon fill="#72A8BC" />
             <Text>20</Text>
           </View>
         </View>

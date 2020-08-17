@@ -6,7 +6,7 @@ const AddButton = ({ onPress, width, height }) => {
   return (
     <TouchableOpacity onPress={onPress} style={{ marginRight: 15 }}>
       <View>
-        <PlusIcon width={width} height={height} />
+        <PlusIcon width={width} height={height} fill="#72A8BC" />
       </View>
     </TouchableOpacity>
   );

@@ -6,13 +6,8 @@ import {
   TOGGLE_SHOW_CHECKED,
 } from '../reducers/prayersReducer';
 import { toggleIsFetching } from './columnActions';
-// import ApiService from '../utils/ApiService';
-import {
-  getPrayersFromAPI,
-  setPrayer,
-  toggleCheckedPrayer,
-  deletePrayer,
-} from '../api/api';
+import ApiService from '../utils/ApiService';
+
 import { retrieveToken } from '../utils/utils';
 const setPrayers = (data) => {
   return {
@@ -57,7 +52,8 @@ export const setPrayersFromAPI = () => {
     dispatch(toggleIsFetching(true));
     const token = await retrieveToken();
 
-    return getPrayersFromAPI(token).then(({ data }) => {
+    return ApiService.getPrayersFromAPI(token).then(({ data }) => {
+      console.log(token);
       dispatch(setPrayers(data));
       dispatch(toggleIsFetching(false));
     });
@@ -68,7 +64,7 @@ export const setPrayerToAPI = (prayerData) => {
   return async (dispatch) => {
     dispatch(toggleIsFetching(true));
     const token = await retrieveToken();
-    return setPrayer(prayerData, token).then(({ data }) => {
+    return ApiService.setPrayer(prayerData, token).then(({ data }) => {
       if (data.id) {
         dispatch(fetchPrayer(data));
         dispatch(toggleIsFetching(false));
@@ -82,12 +78,14 @@ export const setCheckedPrayerToAPI = (prayerData, prayerId) => {
     dispatch(toggleIsFetching(true));
     const token = await retrieveToken();
 
-    return toggleCheckedPrayer(prayerData, prayerId, token).then(({ data }) => {
-      if (data.id) {
-        dispatch(fetchChangedChecked(prayerId, data.checked));
-        dispatch(toggleIsFetching(false));
-      }
-    });
+    return ApiService.toggleCheckedPrayer(prayerData, prayerId, token).then(
+      ({ data }) => {
+        if (data.id) {
+          dispatch(fetchChangedChecked(prayerId, data.checked));
+          dispatch(toggleIsFetching(false));
+        }
+      },
+    );
   };
 };
 
@@ -95,7 +93,7 @@ export const deletePrayerFromAPI = (prayerId) => {
   return async (dispatch) => {
     dispatch(toggleIsFetching(true));
     const token = await retrieveToken();
-    return deletePrayer(prayerId, token).then(({ data }) => {
+    return ApiService.deletePrayer(prayerId, token).then(({ data }) => {
       if (data.raw) {
         dispatch(fetchDeletedPrayer(prayerId));
         dispatch(toggleIsFetching(false));

@@ -6,13 +6,7 @@ import {
   ON_CHANGE_IS_FETCHING,
   TOGGLE_IS_ADD_INPUT,
 } from '../reducers/columnsReducer';
-import {
-  getColumnsFromAPI,
-  setColumn,
-  deleteColumn,
-  editColumnData,
-} from '../api/api';
-// import ApiService from '../utils/ApiService';
+import ApiService from '../utils/ApiService';
 import { retrieveToken } from '../utils/utils';
 
 const fetchColumns = (columns) => {
@@ -64,7 +58,7 @@ export const setColumnsFromAPI = () => {
     dispatch(toggleIsFetching(true));
     const token = await retrieveToken();
 
-    getColumnsFromAPI(token).then(({ data }) => {
+    ApiService.getColumnsFromAPI(token).then(({ data }) => {
       dispatch(fetchColumns(data));
       dispatch(toggleIsFetching(false));
     });
@@ -76,7 +70,7 @@ export const setColumnToAPI = (columnData) => {
     dispatch(toggleIsFetching(true));
     const token = await retrieveToken();
 
-    setColumn(columnData, token).then(({ data }) => {
+    ApiService.setColumn(columnData, token).then(({ data }) => {
       if (data.id) {
         dispatch(fetchColumn(data));
         dispatch(toggleIsAddInput());
@@ -91,7 +85,7 @@ export const deleteColumnFromAPI = (colId) => {
     dispatch(toggleIsFetching(true));
     const token = await retrieveToken();
 
-    return deleteColumn(colId, token).then(
+    return ApiService.deleteColumn(colId, token).then(
       dispatch(fetchDeletedColumn(colId)),
       dispatch(toggleIsFetching(false)),
     );
@@ -103,9 +97,11 @@ export const editColumnTitle = (columnData, colId) => {
     dispatch(toggleIsFetching(true));
     const token = await retrieveToken();
 
-    return editColumnData(columnData, colId, token).then(({ data }) => {
-      dispatch(fetchNewColumnTitle(data.id, data.title));
-      dispatch(toggleIsFetching(false));
-    });
+    return ApiService.editColumnData(columnData, colId, token).then(
+      ({ data }) => {
+        dispatch(fetchNewColumnTitle(data.id, data.title));
+        dispatch(toggleIsFetching(false));
+      },
+    );
   };
 };

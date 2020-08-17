@@ -11,6 +11,7 @@ import { toggleIsAddInput } from '../../actions/columnActions';
 import SettingButton from '../common/SettingButton/SettingButton';
 import ColumnTabBar from '../ColumnTabBar/ColumnTabBar';
 import PrayerInfoScreen from '../../screens/PrayerInfoScreen';
+import PrayerHeader from '../PrayerHeader/PrayerHeader';
 
 const Navigation = ({ isAuth, toggleIsAddInput }) => {
   const Stack = createStackNavigator();
@@ -58,11 +59,16 @@ const Navigation = ({ isAuth, toggleIsAddInput }) => {
               options={({ route }) => ({
                 title: route.params.title,
                 prayerId: route.params.prayerId,
-                headerStyle: {
-                  backgroundColor: '#BFB393',
-                  shadowColor: 'transparent',
-                  height: 130,
+                header: (props) => (
+                  <PrayerHeader {...props} title={route.params.title} />
+                ),
+                headerLeft: null,
+                headerTitleContainerStyle: {
+                  minWidth: '100%',
+                  minHeight: '100%',
+                  paddingVertical: 25,
                 },
+                headerStyle: {},
               })}
             />
           </>
