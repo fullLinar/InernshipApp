@@ -3,7 +3,7 @@ import PrayerInfo from '../components/PrayerInfo';
 
 class PrayerInfoScreen extends React.Component {
   render() {
-    return <PrayerInfo />;
+    return <PrayerInfo date={this.props.route.params.date} />;
   }
 }
 

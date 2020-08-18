@@ -53,7 +53,6 @@ export const setPrayersFromAPI = () => {
     const token = await retrieveToken();
 
     return ApiService.getPrayersFromAPI(token).then(({ data }) => {
-      console.log(token);
       dispatch(setPrayers(data));
       dispatch(toggleIsFetching(false));
     });

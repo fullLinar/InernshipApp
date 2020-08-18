@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import LoginScreen from '../../screens/loginScreen';
+import LoginScreen from '../../screens/LoginScreen';
 import RegistrationScreen from '../../screens/RegistrationScreen';
 import { connect } from 'react-redux';
 import { getAuth } from '../../selectors/selectors';

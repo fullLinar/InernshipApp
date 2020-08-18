@@ -26,6 +26,7 @@ const Prayer = (props) => {
             props.navigation.navigate('Prayer', {
               title: props.title,
               prayerId: props.prayerId,
+              date: props.date,
               navigation: props.navigation,
             })
           }>

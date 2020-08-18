@@ -1,5 +1,6 @@
 import React from 'react';
 import Column from '../components/Column';
+import moment from 'moment';
 import { connect } from 'react-redux';
 import {
   getIsFetching,
@@ -18,7 +19,7 @@ class ColumnScreen extends React.Component {
     super(props);
     this.state = {
       title: '',
-      description: '',
+      description: moment().format('MMM DD YYYY'),
       column: this.props.column,
     };
   }

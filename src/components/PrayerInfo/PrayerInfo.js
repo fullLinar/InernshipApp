@@ -10,7 +10,7 @@ const PrayerInfo = (props) => {
       </View>
       <View style={styles.infoGrid}>
         <View style={styles.infoGridItem}>
-          <Text style={styles.infoGridDate}>July 25 2017</Text>
+          <Text style={styles.infoGridDate}>{props.date}</Text>
           <Text style={styles.infoGridText}>Date Added</Text>
           <Text style={(styles.infoGridText, styles.infoGridLink)}>
             Opened for 4 days

@@ -30,6 +30,7 @@ class PrayerScreen extends React.Component {
       <Prayer
         title={this.props.prayer.title}
         checked={this.props.prayer.checked}
+        date={this.props.prayer.description}
         toggleCheckedPrayer={this.toggleCheckedPrayer}
         deletePrayer={this.deletePrayer}
         prayerId={this.props.prayer.id}
