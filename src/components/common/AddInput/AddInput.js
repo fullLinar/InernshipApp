@@ -8,10 +8,12 @@ const AddInput = ({ onChange, onPress, width, height, title, onBlur }) => {
       <TextInput
         placeholder="Add a prayer..."
         autoCapitalize={'none'}
+        autoCorrect={false}
         style={styles.textInput}
         onChangeText={(newText) => onChange(newText)}
         value={title}
         onBlur={onBlur}
+        multiline={true}
       />
     </View>
   );
@@ -30,8 +32,8 @@ const styles = StyleSheet.create({
   },
   textInput: {
     fontSize: 17,
-    width: '100%',
     paddingVertical: 0,
+    paddingRight: 35,
   },
 });
 

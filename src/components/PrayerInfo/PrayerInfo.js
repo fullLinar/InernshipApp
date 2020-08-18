@@ -1,12 +1,34 @@
 import React from 'react';
-import { Text, View, StyleSheet } from 'react-native';
+import { Text, View, StyleSheet, ScrollView } from 'react-native';
 import PlusIcon from '../SvgIcons/PlusIcon';
+import moment from 'moment';
+import { TextInput } from 'react-native-gesture-handler';
+import CommentIcon from '../SvgIcons/CommentIcon';
+import Comment from '../Comment/Comment';
 
 const PrayerInfo = (props) => {
+  const renderComments = () => {
+    return props.commentsIds.map((comId) => {
+      return props.comments.map((comment) => {
+        if (comment.id === comId) {
+          return (
+            <Comment
+              body={comment.body}
+              created={comment.created}
+              key={comment.id}
+            />
+          );
+        }
+      });
+    });
+  };
+
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <View>
-        <Text style={styles.lastPrayed}>Last prayed 8 min ago</Text>
+        <Text style={styles.lastPrayed}>
+          {moment(props.date, 'MMM DD YYYY hh:mm').fromNow()}
+        </Text>
       </View>
       <View style={styles.infoGrid}>
         <View style={styles.infoGridItem}>
@@ -30,17 +52,30 @@ const PrayerInfo = (props) => {
         </View>
       </View>
       <View style={styles.membersWrap}>
-        <Text style={styles.membersTitle}>members</Text>
+        <Text style={styles.subtitle}>members</Text>
         <View style={styles.memberItems}>
-          <View style={styles.addMemberBtn}>
-            <PlusIcon fill="#fff" />
-          </View>
           <View style={styles.addMemberBtn}>
             <PlusIcon fill="#fff" />
           </View>
         </View>
       </View>
-    </View>
+      <View style={styles.commentsWrap}>
+        <Text style={styles.subtitle}>comments</Text>
+      </View>
+      <View>{renderComments()}</View>
+      <View style={styles.commetnInputWrap}>
+        <CommentIcon />
+        <TextInput
+          style={styles.commentInput}
+          multiline={true}
+          autoCorrect={false}
+          placeholder={'Add a comment...'}
+          onChangeText={(bodyText) => props.onCHangeCommentBody(bodyText)}
+          value={props.commentBody}
+          onBlur={props.addComment}
+        />
+      </View>
+    </ScrollView>
   );
 };
 
@@ -85,10 +120,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     marginBottom: 28,
   },
-  membersTitle: {
+  subtitle: {
     textTransform: 'uppercase',
     fontSize: 13,
-    marginBottom: 13,
+    marginBottom: 15,
     color: '#72A8BC',
   },
   memberItems: {
@@ -103,6 +138,25 @@ const styles = StyleSheet.create({
     backgroundColor: '#BFB393',
     borderRadius: 30,
     margin: 3,
+  },
+  commentsWrap: {
+    paddingHorizontal: 15,
+  },
+  commetnInputWrap: {
+    height: 56,
+    paddingHorizontal: 18,
+    marginBottom: 60,
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderTopWidth: 1,
+    borderBottomWidth: 1,
+    borderColor: '#E5E5E5',
+  },
+  commentInput: {
+    width: '90%',
+    fontSize: 17,
+    paddingHorizontal: 0,
+    marginLeft: 12,
   },
 });
 

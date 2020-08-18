@@ -68,7 +68,6 @@ const Navigation = ({ isAuth, toggleIsAddInput }) => {
                   minHeight: '100%',
                   paddingVertical: 25,
                 },
-                headerStyle: {},
               })}
             />
           </>

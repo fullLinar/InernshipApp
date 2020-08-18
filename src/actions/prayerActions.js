@@ -46,7 +46,8 @@ export const toggleShowChecked = () => {
   };
 };
 
-//----------------Thunks-------------------
+//-----------------------Thunks--------------------------
+
 export const setPrayersFromAPI = () => {
   return async (dispatch) => {
     dispatch(toggleIsFetching(true));

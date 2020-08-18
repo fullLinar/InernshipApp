@@ -3,6 +3,7 @@ export const FETCH_PRAYER = 'FETCH-PRAYER';
 export const FETCH_CHANGED_CHECKED = 'FETCH-CHANGED-CHECKED';
 export const TOGGLE_SHOW_CHECKED = 'TOGGLE-SHOW-CHECKED';
 export const FETCH_DELETED_PRAYER = 'FETCH-DELETED-PRAYER';
+export const SET_COMMENT_ID = 'SET-COMMENT-ID';
 const initialState = {
   isShowCheckedPrayers: true,
   prayers: [],
@@ -48,6 +49,19 @@ const actionMap = {
     return {
       ...state,
       isShowCheckedPrayers: state.isShowCheckedPrayers ? false : true,
+    };
+  },
+  [SET_COMMENT_ID]: (state, action) => {
+    return {
+      ...state,
+      prayers: state.prayers.map((prayer) =>
+        prayer.id === action.payload.prayerId
+          ? {
+              ...prayer,
+              commentsIds: [action.payload.commentId, ...prayer.commentsIds],
+            }
+          : prayer,
+      ),
     };
   },
 };

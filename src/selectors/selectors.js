@@ -83,3 +83,22 @@ export const getNewPrayerData = createSelector(
     };
   },
 );
+
+export const getThisPrayerId = (state, props) => {
+  return props.route.params.prayerId;
+};
+
+export const getComments = (state) => {
+  return state.commentsData.comments;
+};
+
+export const getPrayerCommetsId = createSelector(
+  [getThisPrayerId, getPrayers],
+  (prayerId, prayers) => {
+    let prayerCommentsId = [];
+    prayers.forEach((prayer) =>
+      prayer.id === prayerId ? (prayerCommentsId = prayer.commentsIds) : prayer,
+    );
+    return prayerCommentsId;
+  },
+);

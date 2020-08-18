@@ -16,6 +16,8 @@ export const toggleIsAuth = () => {
   };
 };
 
+//-----------------------Thunks--------------------------
+
 export const submitRegistration = (registData) => {
   return (dispatch) => {
     ApiService.submitRegistData(registData).then(({ data }) => {

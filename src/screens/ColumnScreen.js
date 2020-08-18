@@ -19,7 +19,7 @@ class ColumnScreen extends React.Component {
     super(props);
     this.state = {
       title: '',
-      description: moment().format('MMM DD YYYY'),
+      description: moment().format('MMM DD YYYY hh:mm'),
       column: this.props.column,
     };
   }

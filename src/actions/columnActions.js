@@ -53,6 +53,8 @@ export const toggleIsAddInput = () => {
   };
 };
 
+//-----------------------Thunks--------------------------
+
 export const setColumnsFromAPI = () => {
   return async (dispatch) => {
     dispatch(toggleIsFetching(true));
@@ -84,7 +86,6 @@ export const deleteColumnFromAPI = (colId) => {
   return async (dispatch) => {
     dispatch(toggleIsFetching(true));
     const token = await retrieveToken();
-
     return ApiService.deleteColumn(colId, token).then(
       dispatch(fetchDeletedColumn(colId)),
       dispatch(toggleIsFetching(false)),

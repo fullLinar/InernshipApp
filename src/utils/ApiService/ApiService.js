@@ -90,6 +90,42 @@ class ApiService {
       },
     });
   };
+
+  getComments = (token) => {
+    return this.axiosInstance.get('comments', {
+      headers: {
+        Authorization: 'Bearer ' + token,
+        'Content-Type': 'application/json',
+      },
+    });
+  };
+
+  setComment = (commentData, prayerId, token) => {
+    return this.axiosInstance.post(`cards/${prayerId}/comments`, commentData, {
+      headers: {
+        Authorization: 'Bearer ' + token,
+        'Content-Type': 'application/json',
+      },
+    });
+  };
+
+  editComment = (commentData, commentId, token) => {
+    return this.axiosInstance.put(`comments/${commentId}`, commentData, {
+      headers: {
+        Authorization: 'Bearer ' + token,
+        'Content-Type': 'application/json',
+      },
+    });
+  };
+
+  deleteComment = (commentId, token) => {
+    return this.axiosInstance.delete(`comments/${commentId}`, {
+      headers: {
+        Authorization: 'Bearer ' + token,
+        'Content-Type': 'application/json',
+      },
+    });
+  };
 }
 
 export default new ApiService();
