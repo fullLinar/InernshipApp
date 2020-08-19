@@ -17,12 +17,12 @@ const setPrayers = (data) => {
   };
 };
 
-const fetchPrayer = (data) => {
-  return {
-    type: FETCH_PRAYER,
-    payload: { data },
-  };
-};
+// // const fetchPrayer = (data) => {
+// //   return {
+// //     type: FETCH_PRAYER,
+// //     payload: { data },
+// //   };
+// };
 
 const fetchChangedChecked = (prayerId, checked) => {
   return {
