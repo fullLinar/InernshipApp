@@ -5,6 +5,7 @@ import {
   setCheckedPrayerToAPI,
   setPrayersFromAPI,
   deletePrayerFromAPI,
+  setPrayerTitleToApi,
 } from '../actions/prayerActions';
 
 class PrayerScreen extends React.Component {
@@ -25,6 +26,17 @@ class PrayerScreen extends React.Component {
     this.props.setPrayersFromAPI();
   };
 
+  setPrayerTitle = (titleText) => {
+    const prayerId = this.props.prayer.id;
+    const prayerData = {
+      title: titleText,
+      description: this.props.prayer.description,
+      checked: this.props.prayer.checked,
+      column: this.props.columnData,
+    };
+    this.props.setPrayerTitleToApi(prayerData, prayerId);
+  };
+
   render() {
     return (
       <Prayer
@@ -33,6 +45,8 @@ class PrayerScreen extends React.Component {
         date={this.props.prayer.description}
         toggleCheckedPrayer={this.toggleCheckedPrayer}
         deletePrayer={this.deletePrayer}
+        onChangePrayerTitle={this.onChangePrayerTitle}
+        setPrayerTitle={this.setPrayerTitle}
         prayerId={this.props.prayer.id}
         navigation={this.props.navigation}
       />
@@ -48,6 +62,7 @@ const mapDispatchToProps = {
   setCheckedPrayerToAPI,
   setPrayersFromAPI,
   deletePrayerFromAPI,
+  setPrayerTitleToApi,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(PrayerScreen);

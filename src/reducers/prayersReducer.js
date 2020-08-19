@@ -1,6 +1,7 @@
 export const FETCH_PRAYERS = 'FETCH-PRAYERS';
 export const FETCH_PRAYER = 'FETCH-PRAYER';
 export const FETCH_CHANGED_CHECKED = 'FETCH-CHANGED-CHECKED';
+export const FETCH_EDITED_PRAYER_TITLE = 'FETCH-EDITED-PRAYER-TITLE';
 export const TOGGLE_SHOW_CHECKED = 'TOGGLE-SHOW-CHECKED';
 export const FETCH_DELETED_PRAYER = 'FETCH-DELETED-PRAYER';
 export const SET_COMMENT_ID = 'SET-COMMENT-ID';
@@ -51,17 +52,34 @@ const actionMap = {
       isShowCheckedPrayers: state.isShowCheckedPrayers ? false : true,
     };
   },
+  [FETCH_EDITED_PRAYER_TITLE]: (state, action) => {
+    return {
+      ...state,
+      prayers: state.prayers.map((prayer) => {
+        if (prayer.id === action.payload.prayerId) {
+          return {
+            ...prayer,
+            title: action.payload.title,
+          };
+        } else {
+          return prayer;
+        }
+      }),
+    };
+  },
   [SET_COMMENT_ID]: (state, action) => {
     return {
       ...state,
-      prayers: state.prayers.map((prayer) =>
-        prayer.id === action.payload.prayerId
-          ? {
-              ...prayer,
-              commentsIds: [action.payload.commentId, ...prayer.commentsIds],
-            }
-          : prayer,
-      ),
+      prayers: state.prayers.map((prayer) => {
+        if (prayer.id === action.payload.prayerId) {
+          return {
+            ...prayer,
+            commentsIds: [action.payload.commentId, ...prayer.commentsIds],
+          };
+        } else {
+          return prayer;
+        }
+      }),
     };
   },
 };

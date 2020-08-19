@@ -82,6 +82,15 @@ class ApiService {
     });
   };
 
+  editPrayerTitle = (prayerData, prayerId, token) => {
+    return this.axiosInstance.put(`cards/${prayerId}`, prayerData, {
+      headers: {
+        Authorization: 'Bearer ' + token,
+        'Content-Type': 'application/json',
+      },
+    });
+  };
+
   deletePrayer = (prayerId, token) => {
     return this.axiosInstance.delete(`cards/${prayerId}`, {
       headers: {

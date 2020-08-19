@@ -13,6 +13,8 @@ const LogIn = (props) => {
           textContentType={'emailAddress'}
           value={props.email}
           onChangeText={(emailText) => props.onChangeEmail(emailText)}
+          autoCorrect={false}
+          autoCapitalize={'none'}
         />
         <Text style={styles.subTitles}>Password:</Text>
         <TextInput

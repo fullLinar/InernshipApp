@@ -36,39 +36,46 @@ const Column = (props) => {
   };
 
   return (
-    <ScrollView style={styles.container}>
+    <>
       {props.isFetching ? (
         <Preloader />
       ) : (
-        <View>
+        <ScrollView style={styles.container}>
           <View>
-            <AddInput
-              width={24}
-              height={24}
-              onChange={props.onChangeTitle}
-              onPress={props.setNewPrayerToAPI}
-            />
+            <View>
+              <AddInput
+                width={24}
+                height={24}
+                onChange={props.onChangeTitle}
+                onPress={props.setNewPrayerToAPI}
+                onBlur={props.setNewPrayerToAPI}
+              />
+            </View>
+            <View>{renderUnCheckedPrayers()}</View>
+            {!props.isShowChecked ? (
+              <View style={styles.prayerBtnWrap}>
+                <CustomButton
+                  title="show Answered Prayers"
+                  onPress={props.toggleShowChecked}
+                />
+              </View>
+            ) : (
+              <View style={styles.prayerBtnWrap}>
+                <CustomButton
+                  title="hidden Answered Prayers"
+                  onPress={props.toggleShowChecked}
+                />
+              </View>
+            )}
+            {props.isShowChecked ? (
+              <View>{renderCheckedPrayers()}</View>
+            ) : (
+              <></>
+            )}
           </View>
-          <View>{renderUnCheckedPrayers()}</View>
-          {!props.isShowChecked ? (
-            <View style={styles.prayerBtnWrap}>
-              <CustomButton
-                title="show Answered Prayers"
-                onPress={props.toggleShowChecked}
-              />
-            </View>
-          ) : (
-            <View style={styles.prayerBtnWrap}>
-              <CustomButton
-                title="hidden Answered Prayers"
-                onPress={props.toggleShowChecked}
-              />
-            </View>
-          )}
-          {props.isShowChecked ? <View>{renderCheckedPrayers()}</View> : <></>}
-        </View>
+        </ScrollView>
       )}
-    </ScrollView>
+    </>
   );
 };
 

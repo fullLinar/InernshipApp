@@ -4,6 +4,7 @@ import {
   FETCH_CHANGED_CHECKED,
   FETCH_DELETED_PRAYER,
   TOGGLE_SHOW_CHECKED,
+  FETCH_EDITED_PRAYER_TITLE,
 } from '../reducers/prayersReducer';
 import { toggleIsFetching } from './columnActions';
 import ApiService from '../utils/ApiService';
@@ -40,6 +41,16 @@ const fetchDeletedPrayer = (prayerId) => {
   };
 };
 
+const fetchEditedPrayerTitle = (prayerId, title) => {
+  return {
+    type: FETCH_EDITED_PRAYER_TITLE,
+    payload: {
+      prayerId,
+      title,
+    },
+  };
+};
+
 export const toggleShowChecked = () => {
   return {
     type: TOGGLE_SHOW_CHECKED,
@@ -66,7 +77,6 @@ export const setPrayerToAPI = (prayerData) => {
     const token = await retrieveToken();
     return ApiService.setPrayer(prayerData, token).then(({ data }) => {
       if (data.id) {
-        dispatch(fetchPrayer(data));
         dispatch(toggleIsFetching(false));
       }
     });
@@ -99,5 +109,21 @@ export const deletePrayerFromAPI = (prayerId) => {
         dispatch(toggleIsFetching(false));
       }
     });
+  };
+};
+
+export const setPrayerTitleToApi = (prayerData, prayerId) => {
+  return async (dispatch) => {
+    dispatch(toggleIsFetching(true));
+    const token = await retrieveToken();
+
+    return ApiService.editPrayerTitle(prayerData, prayerId, token).then(
+      ({ data }) => {
+        if (data.id) {
+          dispatch(fetchEditedPrayerTitle(prayerId, data.title));
+          dispatch(toggleIsFetching(false));
+        }
+      },
+    );
   };
 };

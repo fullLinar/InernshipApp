@@ -1,27 +1,71 @@
-import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import moment from 'moment';
+import Swipeout from 'react-native-swipeout';
+import AddInput from '../common/AddInput';
 
 const Comment = (props) => {
+  const [isEditComment, setIsEdit] = useState(false);
+  const [commentBody, setCommentText] = useState(props.body);
+
+  const handleIsEdit = () => {
+    isEditComment ? setIsEdit(false) : setIsEdit(true);
+  };
+
+  const editCommentText = (commentText) => {
+    setCommentText(commentText);
+  };
+
+  const setCommentBody = () => {
+    props.editCommentBody(commentBody, props.commentId);
+    handleIsEdit();
+  };
+
+  const swipeOutBtn = [
+    {
+      text: 'delete',
+      backgroundColor: '#AC5253',
+      onPress: () => props.deleteComment(props.commentId),
+    },
+  ];
   return (
-    <View style={styles.container}>
-      <View style={styles.avatar}></View>
-      <View>
-        <View style={styles.commentHead}>
-          <Text style={styles.authorName}> Author Name</Text>
-          <Text style={styles.commentCreated}>
-            {moment(props.created).fromNow()}
-          </Text>
-        </View>
-        <View>
-          <Text style={styles.commentBody}>{props.body}</Text>
-        </View>
-      </View>
-    </View>
+    <>
+      {isEditComment ? (
+        <AddInput
+          width={24}
+          height={24}
+          containerHeight={79}
+          onBlur={setCommentBody}
+          onPress={setCommentBody}
+          onChange={editCommentText}
+          title={commentBody}
+        />
+      ) : (
+        <Swipeout right={swipeOutBtn} style={styles.swipeOut}>
+          <View style={styles.container}>
+            <View style={styles.avatar}></View>
+            <View>
+              <View style={styles.commentHead}>
+                <Text style={styles.authorName}>{props.profileName}</Text>
+                <Text style={styles.commentCreated}>
+                  {moment(props.created).fromNow()}
+                </Text>
+              </View>
+              <TouchableOpacity onLongPress={() => handleIsEdit()}>
+                <Text style={styles.commentBody}>{props.body}</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </Swipeout>
+      )}
+    </>
   );
 };
 
 const styles = StyleSheet.create({
+  swipeOut: {
+    backgroundColor: '#fff',
+  },
   container: {
     width: '100%',
     paddingVertical: 15,

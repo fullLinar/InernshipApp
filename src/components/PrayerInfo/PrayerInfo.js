@@ -5,77 +5,90 @@ import moment from 'moment';
 import { TextInput } from 'react-native-gesture-handler';
 import CommentIcon from '../SvgIcons/CommentIcon';
 import Comment from '../Comment/Comment';
+import Preloader from '../Preloader/Preloader';
 
 const PrayerInfo = (props) => {
   const renderComments = () => {
-    return props.commentsIds.map((comId) => {
-      return props.comments.map((comment) => {
-        if (comment.id === comId) {
-          return (
-            <Comment
-              body={comment.body}
-              created={comment.created}
-              key={comment.id}
-            />
-          );
-        }
+    if (props.commentsIds) {
+      return props.commentsIds.map((comId) => {
+        return props.comments.map((comment) => {
+          if (comment.id === comId) {
+            return (
+              <Comment
+                profileName={props.profileName}
+                body={comment.body}
+                created={comment.created}
+                key={comment.id}
+                commentId={comment.id}
+                deleteComment={props.deleteComment}
+                editCommentBody={props.editCommentBody}
+              />
+            );
+          }
+        });
       });
-    });
+    }
   };
 
   return (
-    <ScrollView style={styles.container}>
-      <View>
-        <Text style={styles.lastPrayed}>
-          {moment(props.date, 'MMM DD YYYY hh:mm').fromNow()}
-        </Text>
-      </View>
-      <View style={styles.infoGrid}>
-        <View style={styles.infoGridItem}>
-          <Text style={styles.infoGridDate}>{props.date}</Text>
-          <Text style={styles.infoGridText}>Date Added</Text>
-          <Text style={(styles.infoGridText, styles.infoGridLink)}>
-            Opened for 4 days
-          </Text>
-        </View>
-        <View style={styles.infoGridItem}>
-          <Text style={styles.infoGridItemCount}>123</Text>
-          <Text style={styles.infoGridText}>Times Prayed Total</Text>
-        </View>
-        <View style={styles.infoGridItem}>
-          <Text style={styles.infoGridItemCount}>63</Text>
-          <Text style={styles.infoGridText}>Times Prayed by Me</Text>
-        </View>
-        <View style={styles.infoGridItem}>
-          <Text style={styles.infoGridItemCount}>60</Text>
-          <Text style={styles.infoGridText}>Times Prayed by Others</Text>
-        </View>
-      </View>
-      <View style={styles.membersWrap}>
-        <Text style={styles.subtitle}>members</Text>
-        <View style={styles.memberItems}>
-          <View style={styles.addMemberBtn}>
-            <PlusIcon fill="#fff" />
+    <>
+      {props.isFetching ? (
+        <Preloader />
+      ) : (
+        <ScrollView style={styles.container}>
+          <View>
+            <Text style={styles.lastPrayed}>
+              {moment(props.date, 'MMM DD YYYY hh:mm').fromNow()}
+            </Text>
           </View>
-        </View>
-      </View>
-      <View style={styles.commentsWrap}>
-        <Text style={styles.subtitle}>comments</Text>
-      </View>
-      <View>{renderComments()}</View>
-      <View style={styles.commetnInputWrap}>
-        <CommentIcon />
-        <TextInput
-          style={styles.commentInput}
-          multiline={true}
-          autoCorrect={false}
-          placeholder={'Add a comment...'}
-          onChangeText={(bodyText) => props.onCHangeCommentBody(bodyText)}
-          value={props.commentBody}
-          onBlur={props.addComment}
-        />
-      </View>
-    </ScrollView>
+          <View style={styles.infoGrid}>
+            <View style={styles.infoGridItem}>
+              <Text style={styles.infoGridDate}>{props.date}</Text>
+              <Text style={styles.infoGridText}>Date Added</Text>
+              <Text style={(styles.infoGridText, styles.infoGridLink)}>
+                Opened for 4 days
+              </Text>
+            </View>
+            <View style={styles.infoGridItem}>
+              <Text style={styles.infoGridItemCount}>123</Text>
+              <Text style={styles.infoGridText}>Times Prayed Total</Text>
+            </View>
+            <View style={styles.infoGridItem}>
+              <Text style={styles.infoGridItemCount}>63</Text>
+              <Text style={styles.infoGridText}>Times Prayed by Me</Text>
+            </View>
+            <View style={styles.infoGridItem}>
+              <Text style={styles.infoGridItemCount}>60</Text>
+              <Text style={styles.infoGridText}>Times Prayed by Others</Text>
+            </View>
+          </View>
+          <View style={styles.membersWrap}>
+            <Text style={styles.subtitle}>members</Text>
+            <View style={styles.memberItems}>
+              <View style={styles.addMemberBtn}>
+                <PlusIcon fill="#fff" />
+              </View>
+            </View>
+          </View>
+          <View style={styles.commentsWrap}>
+            <Text style={styles.subtitle}>comments</Text>
+          </View>
+          <View>{renderComments()}</View>
+          <View style={styles.commetnInputWrap}>
+            <CommentIcon />
+            <TextInput
+              style={styles.commentInput}
+              multiline={true}
+              autoCorrect={false}
+              placeholder={'Add a comment...'}
+              onChangeText={(bodyText) => props.onCHangeCommentBody(bodyText)}
+              value={props.commentBody}
+              onBlur={props.addComment}
+            />
+          </View>
+        </ScrollView>
+      )}
+    </>
   );
 };
 

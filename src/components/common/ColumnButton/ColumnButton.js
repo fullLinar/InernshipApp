@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { TouchableOpacity, Text, StyleSheet } from 'react-native';
+import { TouchableOpacity, Text, StyleSheet, View } from 'react-native';
 import Swipeout from 'react-native-swipeout';
 import AddInput from '../AddInput';
 
@@ -45,14 +45,17 @@ const ColumnButton = ({
           </TouchableOpacity>
         </Swipeout>
       ) : (
-        <AddInput
-          width={24}
-          height={24}
-          onPress={setTitle}
-          onBlur={setTitle}
-          title={newTitle}
-          onChange={editTitle}
-        />
+        <View>
+          <AddInput
+            width={24}
+            height={24}
+            containerHeight={59}
+            onPress={setTitle}
+            onBlur={setTitle}
+            title={newTitle}
+            onChange={editTitle}
+          />
+        </View>
       )}
     </>
   );

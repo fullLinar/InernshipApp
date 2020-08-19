@@ -71,10 +71,41 @@ export const setNewCommentToApi = (commentBody, prayerId) => {
   return async (dispatch) => {
     dispatch(toggleIsFetching(true));
     const token = await retrieveToken();
-    ApiServices.setComment(commentBody, prayerId, token).then(({ data }) => {
-      if (data) {
-        dispatch(setNewComment(data));
-        dispatch(setCommentId(prayerId, data.id));
+    ApiServices.setComment(commentBody, prayerId, token)
+      .then(({ data }) => {
+        if (data) {
+          dispatch(setNewComment(data));
+          dispatch(setCommentId(prayerId, data.id));
+          dispatch(toggleIsFetching(false));
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        dispatch(toggleIsFetching(false));
+      });
+  };
+};
+
+export const setCommentNewTitle = (commentBody, commentId) => {
+  return async (dispatch) => {
+    dispatch(toggleIsFetching(true));
+    const token = await retrieveToken();
+    ApiServices.editComment(commentBody, commentId, token).then(({ data }) => {
+      if (data.id) {
+        dispatch(editComment(data.id, data.body));
+        dispatch(toggleIsFetching(false));
+      }
+    });
+  };
+};
+
+export const deleteCommentFromApi = (commentId) => {
+  return async (dispatch) => {
+    dispatch(toggleIsFetching(true));
+    const token = await retrieveToken();
+    ApiServices.deleteComment(commentId, token).then(({ data }) => {
+      if (data.raw) {
+        dispatch(dleteComment(commentId));
         dispatch(toggleIsFetching(false));
       }
     });

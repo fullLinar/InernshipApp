@@ -4,6 +4,10 @@ export const getAuth = (state) => {
   return state.authData.isAuth;
 };
 
+export const getProfileName = (state) => {
+  return state.authData.profileData.name;
+};
+
 export const getColumnsList = (state) => {
   return state.columnsData.columns;
 };
