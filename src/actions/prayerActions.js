@@ -17,12 +17,12 @@ const setPrayers = (data) => {
   };
 };
 
-// // const fetchPrayer = (data) => {
-// //   return {
-// //     type: FETCH_PRAYER,
-// //     payload: { data },
-// //   };
-// };
+const fetchPrayer = (data) => {
+  return {
+    type: FETCH_PRAYER,
+    payload: { data },
+  };
+};
 
 const fetchChangedChecked = (prayerId, checked) => {
   return {
@@ -77,6 +77,8 @@ export const setPrayerToAPI = (prayerData) => {
     const token = await retrieveToken();
     return ApiService.setPrayer(prayerData, token).then(({ data }) => {
       if (data.id) {
+        const newPrayer = { ...data, commentsIds: [] };
+        dispatch(fetchPrayer(newPrayer));
         dispatch(toggleIsFetching(false));
       }
     });

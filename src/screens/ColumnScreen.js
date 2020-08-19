@@ -32,7 +32,6 @@ class ColumnScreen extends React.Component {
   setNewPrayerToAPI = () => {
     if (this.state.title !== '') {
       this.props.setPrayerToAPI(this.state);
-      this.props.setPrayersFromAPI();
     }
   };
   toggleShowChecked = () => {
