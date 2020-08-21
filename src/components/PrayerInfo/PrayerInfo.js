@@ -74,14 +74,14 @@ const PrayerInfo = (props) => {
             <Text style={styles.subtitle}>comments</Text>
           </View>
           <View>{renderComments()}</View>
-          <View style={styles.commetnInputWrap}>
+          <View style={styles.commentInputWrap}>
             <CommentIcon />
             <TextInput
               style={styles.commentInput}
               multiline={true}
               autoCorrect={false}
               placeholder={'Add a comment...'}
-              onChangeText={(bodyText) => props.onCHangeCommentBody(bodyText)}
+              onChangeText={(bodyText) => props.onChangeCommentBody(bodyText)}
               value={props.commentBody}
               onBlur={props.addComment}
             />
@@ -155,7 +155,7 @@ const styles = StyleSheet.create({
   commentsWrap: {
     paddingHorizontal: 15,
   },
-  commetnInputWrap: {
+  commentInputWrap: {
     height: 56,
     paddingHorizontal: 18,
     marginBottom: 60,

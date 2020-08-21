@@ -7,9 +7,9 @@ import {
   getIsAddInput,
 } from '../selectors/selectors';
 import {
-  setColumnsFromAPI,
-  setColumnToAPI,
-  deleteColumnFromAPI,
+  getColumns,
+  addColumn,
+  deleteColumn,
   editColumnTitle,
 } from '../actions/columnActions';
 class MyDeskScreen extends React.Component {
@@ -21,21 +21,20 @@ class MyDeskScreen extends React.Component {
     };
   }
   componentDidMount() {
-    this.props.setColumnsFromAPI();
+    this.props.getColumns();
   }
 
-  setNewColumn = () => {
-    if (this.state.title !== '') {
-      this.props.setColumnToAPI(this.state);
+  createColumn = () => {
+    const { title, description } = this.state;
+    const { addColumn } = this.props;
+
+    if (title !== '') {
+      addColumn({ title, description });
     }
   };
 
   setColumnTitle = (titleText) => {
     this.setState({ title: titleText });
-  };
-
-  deleteColumn = async (colId) => {
-    await this.props.deleteColumnFromAPI(colId);
   };
 
   editColumnTitle = (colTitle, descr, colId) => {
@@ -51,10 +50,10 @@ class MyDeskScreen extends React.Component {
         isFetching={this.props.isFetching}
         columns={this.props.columns}
         isAddInput={this.props.isAddInput}
-        setNewColumn={this.setNewColumn}
+        createColumn={this.createColumn}
         setColumnTitle={this.setColumnTitle}
         navigation={this.props.navigation}
-        deleteColumn={this.deleteColumn}
+        deleteColumn={this.props.deleteColumn}
         editColumnTitle={this.editColumnTitle}
       />
     );
@@ -70,9 +69,9 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = {
-  setColumnsFromAPI,
-  setColumnToAPI,
-  deleteColumnFromAPI,
+  getColumns,
+  addColumn,
+  deleteColumn,
   editColumnTitle,
 };
 

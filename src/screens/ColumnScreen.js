@@ -6,11 +6,11 @@ import {
   getIsFetching,
   getColumnPrayers,
   getIsShowChecked,
-  prayerColumn,
+  getPrayerColumn,
 } from '../selectors/selectors';
 import {
-  setPrayersFromAPI,
-  setPrayerToAPI,
+  getPrayers,
+  addPrayer,
   toggleShowChecked,
 } from '../actions/prayerActions';
 
@@ -20,18 +20,19 @@ class ColumnScreen extends React.Component {
     this.state = {
       title: '',
       description: moment().format('MMM DD YYYY hh:mm'),
-      column: this.props.column,
     };
   }
   componentDidMount() {
-    this.props.setPrayersFromAPI();
+    this.props.getPrayers();
   }
   onChangeTitle = (titleText) => {
     this.setState({ title: titleText });
   };
-  setNewPrayerToAPI = () => {
-    if (this.state.title !== '') {
-      this.props.setPrayerToAPI(this.state);
+  createPrayer = () => {
+    const { title, description } = this.state;
+    const { column } = this.props;
+    if (title !== '') {
+      this.props.addPrayer({ title, description, column });
     }
   };
   toggleShowChecked = () => {
@@ -44,7 +45,7 @@ class ColumnScreen extends React.Component {
         columnData={this.props.column}
         isFetching={this.props.isFetching}
         onChangeTitle={this.onChangeTitle}
-        setNewPrayerToAPI={this.setNewPrayerToAPI}
+        createPrayer={this.createPrayer}
         isShowChecked={this.props.isShowChecked}
         toggleShowChecked={this.toggleShowChecked}
         navigation={this.props.navigation}
@@ -58,13 +59,13 @@ const mapStateToProps = (state, props) => {
     prayers: getColumnPrayers(state, props),
     isFetching: getIsFetching(state),
     isShowChecked: getIsShowChecked(state),
-    column: prayerColumn(state, props),
+    column: getPrayerColumn(state, props),
   };
 };
 
 const mapDispatchToProps = {
-  setPrayersFromAPI,
-  setPrayerToAPI,
+  getPrayers,
+  addPrayer,
   toggleShowChecked,
 };
 export default connect(mapStateToProps, mapDispatchToProps)(ColumnScreen);

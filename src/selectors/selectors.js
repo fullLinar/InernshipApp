@@ -59,7 +59,7 @@ export const getColumnPrayers = createSelector(
   },
 );
 
-export const prayerColumn = createSelector(
+export const getPrayerColumn = createSelector(
   [getColumnId, getColumnsList],
   (colId, columnList) => {
     let column = {};
@@ -77,7 +77,7 @@ const newPrayerDescr = (state) => {
 };
 
 export const getNewPrayerData = createSelector(
-  [prayerColumn, newPrayerTile, newPrayerDescr],
+  [getPrayerColumn, newPrayerTile, newPrayerDescr],
   (column, title, description) => {
     return {
       title,
@@ -92,17 +92,14 @@ export const getThisPrayerId = (state, props) => {
   return props.route.params.prayerId;
 };
 
-export const getComments = (state) => {
+export const getCommentsList = (state) => {
   return state.commentsData.comments;
 };
 
-export const getPrayerCommetsId = createSelector(
+export const getPrayerCommentsId = createSelector(
   [getThisPrayerId, getPrayers],
   (prayerId, prayers) => {
-    let prayerCommentsId = [];
-    prayers.forEach((prayer) =>
-      prayer.id === prayerId ? (prayerCommentsId = prayer.commentsIds) : prayer,
-    );
-    return prayerCommentsId;
+    const prayer = prayers.find((pr) => pr.id === prayerId);
+    return prayer.commentsIds;
   },
 );

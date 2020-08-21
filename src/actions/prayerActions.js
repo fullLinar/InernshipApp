@@ -59,19 +59,19 @@ export const toggleShowChecked = () => {
 
 //-----------------------Thunks--------------------------
 
-export const setPrayersFromAPI = () => {
+export const getPrayers = () => {
   return async (dispatch) => {
     dispatch(toggleIsFetching(true));
     const token = await retrieveToken();
 
-    return ApiService.getPrayersFromAPI(token).then(({ data }) => {
+    return ApiService.getPrayers(token).then(({ data }) => {
       dispatch(setPrayers(data));
       dispatch(toggleIsFetching(false));
     });
   };
 };
 
-export const setPrayerToAPI = (prayerData) => {
+export const addPrayer = (prayerData) => {
   return async (dispatch) => {
     dispatch(toggleIsFetching(true));
     const token = await retrieveToken();
@@ -85,7 +85,7 @@ export const setPrayerToAPI = (prayerData) => {
   };
 };
 
-export const setCheckedPrayerToAPI = (prayerData, prayerId) => {
+export const onChangePrayerChecked = (prayerData, prayerId) => {
   return async (dispatch) => {
     dispatch(toggleIsFetching(true));
     const token = await retrieveToken();
@@ -101,7 +101,7 @@ export const setCheckedPrayerToAPI = (prayerData, prayerId) => {
   };
 };
 
-export const deletePrayerFromAPI = (prayerId) => {
+export const deletePrayer = (prayerId) => {
   return async (dispatch) => {
     dispatch(toggleIsFetching(true));
     const token = await retrieveToken();
@@ -114,7 +114,7 @@ export const deletePrayerFromAPI = (prayerId) => {
   };
 };
 
-export const setPrayerTitleToApi = (prayerData, prayerId) => {
+export const editPrayerTitle = (prayerData, prayerId) => {
   return async (dispatch) => {
     dispatch(toggleIsFetching(true));
     const token = await retrieveToken();

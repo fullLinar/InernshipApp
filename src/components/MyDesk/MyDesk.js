@@ -3,46 +3,55 @@ import { View, FlatList, StyleSheet } from 'react-native';
 import ColumnButton from '../common/ColumnButton/ColumnButton';
 import AddInput from '../common/AddInput';
 import Preloader from '../Preloader/Preloader';
-const MyDesk = (props) => {
-  const columns = props.columns.map((column) => column);
+const MyDesk = ({
+  columns,
+  navigation,
+  deleteColumn,
+  editColumnTitle,
+  setColumnTitle,
+  createColumn,
+  isFetching,
+  isAddInput,
+}) => {
   const renderColumns = ({ item }) => {
     return (
       <ColumnButton
         title={item.title}
         onPress={() =>
-          props.navigation.navigate('Column', {
+          navigation.navigate('Column', {
             title: item.title,
             colId: item.id,
           })
         }
         colId={item.id}
         descr={item.description}
-        onPressDelete={props.deleteColumn}
-        editColumnTitle={props.editColumnTitle}
+        onPressDelete={deleteColumn}
+        editColumnTitle={editColumnTitle}
       />
     );
   };
+
+  if (isFetching) {
+    return <Preloader />;
+  }
+
   return (
     <View style={styles.container}>
-      {props.isAddInput ? (
+      {isAddInput ? (
         <AddInput
-          onChange={props.setColumnTitle}
-          onPress={props.setNewColumn}
+          onChange={setColumnTitle}
+          onPress={createColumn}
           width={24}
           height={24}
         />
       ) : (
         <></>
       )}
-      {!props.isFetching ? (
-        <FlatList
-          data={columns}
-          renderItem={renderColumns}
-          keyExtractor={(item) => item.id.toString()}
-        />
-      ) : (
-        <Preloader />
-      )}
+      <FlatList
+        data={columns}
+        renderItem={renderColumns}
+        keyExtractor={(item) => item.id.toString()}
+      />
     </View>
   );
 };

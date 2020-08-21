@@ -7,9 +7,18 @@ import Swipeout from 'react-native-swipeout';
 import AddInput from '../common/AddInput';
 import ColorMarker from '../common/ColorMarker/ColorMarker';
 
-const Prayer = (props) => {
+const Prayer = ({
+  title,
+  checked,
+  setPrayerTitle,
+  deletePrayer,
+  toggleCheckedPrayer,
+  prayerId,
+  date,
+  navigation,
+}) => {
   const [isEditTitle, setIsEdit] = useState(false);
-  const [newTitle, setNewTitle] = useState(props.title);
+  const [newTitle, setNewTitle] = useState(title);
 
   const handleIsEdit = () => {
     isEditTitle ? setIsEdit(false) : setIsEdit(true);
@@ -20,13 +29,13 @@ const Prayer = (props) => {
   };
 
   const setPraterNewTitle = () => {
-    props.setPrayerTitle(newTitle);
+    setPrayerTitle(newTitle);
   };
   const swipeOutBtn = [
     {
       text: 'delete',
       backgroundColor: '#AC5253',
-      onPress: () => props.deletePrayer(),
+      onPress: () => deletePrayer(),
     },
   ];
   return (
@@ -47,27 +56,23 @@ const Prayer = (props) => {
         <Swipeout right={swipeOutBtn} style={styles.swipeContainer}>
           <View style={styles.container}>
             <ColorMarker />
-
-            <CheckBoxButton
-              isChecked={props.checked}
-              onPress={props.toggleCheckedPrayer}
-            />
+            <CheckBoxButton isChecked={checked} onPress={toggleCheckedPrayer} />
 
             <TouchableOpacity
               style={styles.contentWrap}
               onPress={() =>
-                props.navigation.navigate('Prayer', {
-                  title: props.title,
-                  prayerId: props.prayerId,
-                  date: props.date,
-                  navigation: props.navigation,
+                navigation.navigate('Prayer', {
+                  title: title,
+                  prayerId: prayerId,
+                  date: date,
+                  navigation: navigation,
                 })
               }
               onLongPress={() => handleIsEdit()}>
-              {props.checked ? (
-                <Text style={styles.contentWrapCheckedText}>{props.title}</Text>
+              {checked ? (
+                <Text style={styles.contentWrapCheckedText}>{title}</Text>
               ) : (
-                <Text style={styles.contentWrapText}>{props.title}</Text>
+                <Text style={styles.contentWrapText}>{title}</Text>
               )}
             </TouchableOpacity>
 

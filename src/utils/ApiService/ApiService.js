@@ -19,7 +19,7 @@ class ApiService {
     );
   };
 
-  getColumnsFromAPI = (token) => {
+  getColumns = (token) => {
     return this.axiosInstance.get('columns', {
       headers: {
         Authorization: 'Bearer ' + token,
@@ -55,7 +55,7 @@ class ApiService {
     });
   };
 
-  getPrayersFromAPI = (token) => {
+  getPrayers = (token) => {
     return this.axiosInstance.get('cards', {
       headers: {
         Authorization: 'Bearer ' + token,

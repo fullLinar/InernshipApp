@@ -11,7 +11,8 @@ class LoginScreen extends React.Component {
     };
   }
   logIn = () => {
-    this.props.submitLogIn(this.state);
+    const loginData = this.state;
+    this.props.submitLogIn(loginData);
   };
 
   onChangeEmail = (emailText) => {

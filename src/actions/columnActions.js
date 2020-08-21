@@ -55,19 +55,19 @@ export const toggleIsAddInput = () => {
 
 //-----------------------Thunks--------------------------
 
-export const setColumnsFromAPI = () => {
+export const getColumns = () => {
   return async (dispatch) => {
     dispatch(toggleIsFetching(true));
     const token = await retrieveToken();
 
-    ApiService.getColumnsFromAPI(token).then(({ data }) => {
+    ApiService.getColumns(token).then(({ data }) => {
       dispatch(fetchColumns(data));
       dispatch(toggleIsFetching(false));
     });
   };
 };
 
-export const setColumnToAPI = (columnData) => {
+export const addColumn = (columnData) => {
   return async (dispatch) => {
     dispatch(toggleIsFetching(true));
     const token = await retrieveToken();
@@ -82,7 +82,7 @@ export const setColumnToAPI = (columnData) => {
   };
 };
 
-export const deleteColumnFromAPI = (colId) => {
+export const deleteColumn = (colId) => {
   return async (dispatch) => {
     dispatch(toggleIsFetching(true));
     const token = await retrieveToken();

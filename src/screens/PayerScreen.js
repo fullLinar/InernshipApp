@@ -2,52 +2,52 @@ import React from 'react';
 import Prayer from '../components/Prayer';
 import { connect } from 'react-redux';
 import {
-  setCheckedPrayerToAPI,
-  setPrayersFromAPI,
-  deletePrayerFromAPI,
-  setPrayerTitleToApi,
+  onChangePrayerChecked,
+  deletePrayer,
+  editPrayerTitle,
 } from '../actions/prayerActions';
 
 class PrayerScreen extends React.Component {
+  constructor(props) {
+    super(props);
+    this.prayer = this.props.prayer;
+  }
   toggleCheckedPrayer = () => {
-    const prayerId = this.props.prayer.id;
+    const prayerId = this.prayer.id;
     const prayerData = {
-      title: this.props.prayer.title,
-      description: this.props.prayer.description,
-      checked: this.props.prayer.checked ? false : true,
+      ...this.prayer,
+      checked: this.prayer.checked ? false : true,
       column: this.props.columnData,
     };
-    this.props.setCheckedPrayerToAPI(prayerData, prayerId);
+    this.props.onChangePrayerChecked(prayerData, prayerId);
   };
 
-  deletePrayer = async () => {
-    const prayerId = this.props.prayer.id;
-    await this.props.deletePrayerFromAPI(prayerId);
-    this.props.setPrayersFromAPI();
+  deletePrayer = () => {
+    const prayerId = this.prayer.id;
+    this.props.deletePrayer(prayerId);
   };
 
   setPrayerTitle = (titleText) => {
-    const prayerId = this.props.prayer.id;
+    const prayerId = this.prayer.id;
     const prayerData = {
+      ...this.prayer,
       title: titleText,
-      description: this.props.prayer.description,
-      checked: this.props.prayer.checked,
       column: this.props.columnData,
     };
-    this.props.setPrayerTitleToApi(prayerData, prayerId);
+    this.props.editPrayerTitle(prayerData, prayerId);
   };
 
   render() {
     return (
       <Prayer
-        title={this.props.prayer.title}
-        checked={this.props.prayer.checked}
-        date={this.props.prayer.description}
+        title={this.prayer.title}
+        checked={this.prayer.checked}
+        date={this.prayer.description}
         toggleCheckedPrayer={this.toggleCheckedPrayer}
         deletePrayer={this.deletePrayer}
         onChangePrayerTitle={this.onChangePrayerTitle}
         setPrayerTitle={this.setPrayerTitle}
-        prayerId={this.props.prayer.id}
+        prayerId={this.prayer.id}
         navigation={this.props.navigation}
       />
     );
@@ -59,10 +59,9 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = {
-  setCheckedPrayerToAPI,
-  setPrayersFromAPI,
-  deletePrayerFromAPI,
-  setPrayerTitleToApi,
+  onChangePrayerChecked,
+  deletePrayer,
+  editPrayerTitle,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(PrayerScreen);

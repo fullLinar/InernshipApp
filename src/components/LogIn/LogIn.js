@@ -3,7 +3,14 @@ import { View, Text, TextInput } from 'react-native';
 import { styles } from '../../styles/styles';
 import CustomButton from '../common/CustomButton';
 
-const LogIn = (props) => {
+const LogIn = ({
+  email,
+  pass,
+  onChangeEmail,
+  onChangePassword,
+  navigation,
+  logIn,
+}) => {
   return (
     <>
       <View style={styles.container}>
@@ -11,8 +18,8 @@ const LogIn = (props) => {
         <TextInput
           style={styles.textInput}
           textContentType={'emailAddress'}
-          value={props.email}
-          onChangeText={(emailText) => props.onChangeEmail(emailText)}
+          value={email}
+          onChangeText={(emailText) => onChangeEmail(emailText)}
           autoCorrect={false}
           autoCapitalize={'none'}
         />
@@ -21,13 +28,13 @@ const LogIn = (props) => {
           style={styles.textInput}
           textContentType={'password'}
           secureTextEntry={true}
-          value={props.pass}
-          onChangeText={(passText) => props.onChangePassword(passText)}
+          value={pass}
+          onChangeText={(passText) => onChangePassword(passText)}
         />
-        <CustomButton title="Log In" onPress={() => props.logIn()} />
+        <CustomButton title="Log In" onPress={() => logIn()} />
         <CustomButton
           title="Registration"
-          onPress={() => props.navigation.goBack()}
+          onPress={() => navigation.goBack()}
         />
       </View>
     </>

@@ -8,8 +8,8 @@ import {
   setCommentNewTitle,
 } from '../actions/commentsAction';
 import {
-  getPrayerCommetsId,
-  getComments,
+  getPrayerCommentsId,
+  getCommentsList,
   getProfileName,
   getIsFetching,
 } from '../selectors/selectors';
@@ -23,7 +23,7 @@ class PrayerInfoScreen extends React.Component {
     };
   }
 
-  onCHangeCommentBody = (bodyText) => {
+  onChangeCommentBody = (bodyText) => {
     this.setState({ body: bodyText });
   };
 
@@ -54,7 +54,7 @@ class PrayerInfoScreen extends React.Component {
         date={this.props.route.params.date}
         comments={this.props.comments}
         commentsIds={this.props.prayerCommentsId}
-        onCHangeCommentBody={this.onCHangeCommentBody}
+        onChangeCommentBody={this.onChangeCommentBody}
         editCommentBody={this.editCommentBody}
         commentBody={this.state.body}
         addComment={this.addComment}
@@ -67,8 +67,8 @@ class PrayerInfoScreen extends React.Component {
 
 const mapStateToProps = (state, props) => {
   return {
-    comments: getComments(state),
-    prayerCommentsId: getPrayerCommetsId(state, props),
+    comments: getCommentsList(state),
+    prayerCommentsId: getPrayerCommentsId(state, props),
     profileName: getProfileName(state),
     isFetching: getIsFetching(state),
   };
