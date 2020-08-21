@@ -22,7 +22,7 @@ const Column = ({
     return checkedPrayers.map((prayer) => (
       <PrayerScreen
         prayer={prayer}
-        key={prayer.id.toString()}
+        key={prayer.id}
         columnData={columnData}
         navigation={navigation}
       />
@@ -33,7 +33,7 @@ const Column = ({
     return uncheckedPrayers.map((prayer) => (
       <PrayerScreen
         prayer={prayer}
-        key={prayer.id.toString()}
+        key={prayer.id}
         columnData={columnData}
         navigation={navigation}
       />

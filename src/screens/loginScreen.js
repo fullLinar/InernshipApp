@@ -10,25 +10,12 @@ class LoginScreen extends React.Component {
       password: '',
     };
   }
-  logIn = () => {
-    const loginData = this.state;
-    this.props.submitLogIn(loginData);
-  };
 
-  onChangeEmail = (emailText) => {
-    this.setState({ email: emailText });
-  };
-
-  onChangePassword = (passText) => {
-    this.setState({ password: passText });
-  };
   render() {
     return (
       <LogIn
         navigation={this.props.navigation}
-        logIn={this.logIn}
-        onChangeEmail={this.onChangeEmail}
-        onChangePassword={this.onChangePassword}
+        logIn={this.props.submitLogIn}
         email={this.state.email}
         pass={this.state.password}
       />

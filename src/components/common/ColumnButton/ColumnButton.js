@@ -33,31 +33,29 @@ const ColumnButton = ({
       onPress: () => onPressDelete(colId),
     },
   ];
+
+  if (isEditTitle) {
+    return (
+      <AddInput
+        width={24}
+        height={24}
+        containerHeight={59}
+        onPress={setTitle}
+        onBlur={setTitle}
+        title={newTitle}
+        onChange={editTitle}
+      />
+    );
+  }
   return (
-    <>
-      {!isEditTitle ? (
-        <Swipeout right={swipeOutBtn} style={styles.swipeBtn}>
-          <TouchableOpacity
-            onPress={onPress}
-            style={styles.btnWrap}
-            onLongPress={handleIsEdit}>
-            <Text>{title}</Text>
-          </TouchableOpacity>
-        </Swipeout>
-      ) : (
-        <View>
-          <AddInput
-            width={24}
-            height={24}
-            containerHeight={59}
-            onPress={setTitle}
-            onBlur={setTitle}
-            title={newTitle}
-            onChange={editTitle}
-          />
-        </View>
-      )}
-    </>
+    <Swipeout right={swipeOutBtn} style={styles.swipeBtn}>
+      <TouchableOpacity
+        onPress={onPress}
+        style={styles.btnWrap}
+        onLongPress={handleIsEdit}>
+        <Text>{title}</Text>
+      </TouchableOpacity>
+    </Swipeout>
   );
 };
 

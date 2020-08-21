@@ -38,58 +38,58 @@ const Prayer = ({
       onPress: () => deletePrayer(),
     },
   ];
+  if (isEditTitle) {
+    return (
+      <View style={{ paddingVertical: 10 }}>
+        <AddInput
+          width={24}
+          height={24}
+          containerHeight={61}
+          title={newTitle}
+          onChange={editTitle}
+          onPress={setPraterNewTitle}
+          onBlur={setPraterNewTitle}
+        />
+      </View>
+    );
+  }
   return (
-    <>
-      {isEditTitle ? (
-        <View style={{ paddingVertical: 10 }}>
-          <AddInput
-            width={24}
-            height={24}
-            containerHeight={61}
-            title={newTitle}
-            onChange={editTitle}
-            onPress={setPraterNewTitle}
-            onBlur={setPraterNewTitle}
-          />
-        </View>
-      ) : (
-        <Swipeout right={swipeOutBtn} style={styles.swipeContainer}>
-          <View style={styles.container}>
-            <ColorMarker />
-            <CheckBoxButton isChecked={checked} onPress={toggleCheckedPrayer} />
+    <Swipeout right={swipeOutBtn} style={styles.swipeContainer}>
+      <View style={styles.container}>
+        <ColorMarker />
+        <CheckBoxButton isChecked={checked} onPress={toggleCheckedPrayer} />
 
-            <TouchableOpacity
-              style={styles.contentWrap}
-              onPress={() =>
-                navigation.navigate('Prayer', {
-                  title: title,
-                  prayerId: prayerId,
-                  date: date,
-                  navigation: navigation,
-                })
-              }
-              onLongPress={() => handleIsEdit()}>
-              {checked ? (
-                <Text style={styles.contentWrapCheckedText}>{title}</Text>
-              ) : (
-                <Text style={styles.contentWrapText}>{title}</Text>
-              )}
-            </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.contentWrap}
+          onPress={() =>
+            navigation.navigate('Prayer', {
+              title: title,
+              prayerId: prayerId,
+              date: date,
+              navigation: navigation,
+            })
+          }
+          onLongPress={() => handleIsEdit()}>
+          <Text
+            style={
+              checked ? styles.contentWrapCheckedText : styles.contentWrapText
+            }>
+            {title}
+          </Text>
+        </TouchableOpacity>
 
-            <View style={styles.iconsWrap}>
-              <View style={styles.userIcon}>
-                <UserIcon />
-                <Text>5</Text>
-              </View>
-              <View style={styles.prayerIcon}>
-                <PrayerIcon fill="#72A8BC" />
-                <Text>20</Text>
-              </View>
-            </View>
+        <View style={styles.iconsWrap}>
+          <View style={styles.userIcon}>
+            <UserIcon />
+            <Text>5</Text>
           </View>
-        </Swipeout>
-      )}
-    </>
+          <View style={styles.prayerIcon}>
+            <PrayerIcon fill="#72A8BC" />
+            <Text>20</Text>
+          </View>
+        </View>
+      </View>
+    </Swipeout>
   );
 };
 

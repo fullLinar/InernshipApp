@@ -63,11 +63,13 @@ export const getPrayers = () => {
   return async (dispatch) => {
     dispatch(toggleIsFetching(true));
     const token = await retrieveToken();
-
-    return ApiService.getPrayers(token).then(({ data }) => {
+    const { data } = await ApiService.getPrayers(token);
+    try {
       dispatch(setPrayers(data));
       dispatch(toggleIsFetching(false));
-    });
+    } catch (err) {
+      throw err;
+    }
   };
 };
 
@@ -75,13 +77,14 @@ export const addPrayer = (prayerData) => {
   return async (dispatch) => {
     dispatch(toggleIsFetching(true));
     const token = await retrieveToken();
-    return ApiService.setPrayer(prayerData, token).then(({ data }) => {
-      if (data.id) {
-        const newPrayer = { ...data, commentsIds: [] };
-        dispatch(fetchPrayer(newPrayer));
-        dispatch(toggleIsFetching(false));
-      }
-    });
+    const { data } = await ApiService.setPrayer(prayerData, token);
+    try {
+      const newPrayer = { ...data, commentsIds: [] };
+      dispatch(fetchPrayer(newPrayer));
+      dispatch(toggleIsFetching(false));
+    } catch (err) {
+      throw err;
+    }
   };
 };
 
@@ -89,15 +92,17 @@ export const onChangePrayerChecked = (prayerData, prayerId) => {
   return async (dispatch) => {
     dispatch(toggleIsFetching(true));
     const token = await retrieveToken();
-
-    return ApiService.toggleCheckedPrayer(prayerData, prayerId, token).then(
-      ({ data }) => {
-        if (data.id) {
-          dispatch(fetchChangedChecked(prayerId, data.checked));
-          dispatch(toggleIsFetching(false));
-        }
-      },
+    const { data } = await ApiService.toggleCheckedPrayer(
+      prayerData,
+      prayerId,
+      token,
     );
+    try {
+      dispatch(fetchChangedChecked(prayerId, data.checked));
+      dispatch(toggleIsFetching(false));
+    } catch (err) {
+      throw err;
+    }
   };
 };
 
@@ -105,12 +110,13 @@ export const deletePrayer = (prayerId) => {
   return async (dispatch) => {
     dispatch(toggleIsFetching(true));
     const token = await retrieveToken();
-    return ApiService.deletePrayer(prayerId, token).then(({ data }) => {
-      if (data.raw) {
-        dispatch(fetchDeletedPrayer(prayerId));
-        dispatch(toggleIsFetching(false));
-      }
-    });
+    await ApiService.deletePrayer(prayerId, token);
+    try {
+      dispatch(fetchDeletedPrayer(prayerId));
+      dispatch(toggleIsFetching(false));
+    } catch (err) {
+      throw err;
+    }
   };
 };
 
@@ -118,14 +124,16 @@ export const editPrayerTitle = (prayerData, prayerId) => {
   return async (dispatch) => {
     dispatch(toggleIsFetching(true));
     const token = await retrieveToken();
-
-    return ApiService.editPrayerTitle(prayerData, prayerId, token).then(
-      ({ data }) => {
-        if (data.id) {
-          dispatch(fetchEditedPrayerTitle(prayerId, data.title));
-          dispatch(toggleIsFetching(false));
-        }
-      },
+    const { data } = await ApiService.editPrayerTitle(
+      prayerData,
+      prayerId,
+      token,
     );
+    try {
+      dispatch(fetchEditedPrayerTitle(prayerId, data.title));
+      dispatch(toggleIsFetching(false));
+    } catch (err) {
+      throw err;
+    }
   };
 };

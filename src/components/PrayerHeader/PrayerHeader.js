@@ -3,11 +3,11 @@ import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import BackIcon from '../SvgIcons/BackIcon';
 import PrayerIcon from '../SvgIcons/PrayerIcon';
 
-const PrayerHeader = (props) => {
+const PrayerHeader = ({ navigation, title }) => {
   return (
     <View style={styles.container}>
       <View style={styles.buttons}>
-        <TouchableOpacity onPress={() => props.navigation.goBack()}>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
           <View>
             <BackIcon />
           </View>
@@ -16,7 +16,7 @@ const PrayerHeader = (props) => {
           <PrayerIcon fill="#fff" />
         </View>
       </View>
-      <Text style={styles.title}>{props.title}</Text>
+      <Text style={styles.title}>{title}</Text>
     </View>
   );
 };

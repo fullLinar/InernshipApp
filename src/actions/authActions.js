@@ -19,29 +19,27 @@ export const toggleIsAuth = () => {
 //-----------------------Thunks--------------------------
 
 export const submitRegistration = (registData) => {
-  return (dispatch) => {
-    ApiService.submitRegistData(registData).then(({ data }) => {
-      if (data.token) {
-        setTokenToStore(data.token);
-        dispatch(fetchProfileData(data));
-        dispatch(toggleIsAuth());
-      } else {
-        Alert.alert('Что-то пошло не так!');
-      }
-    });
+  return async (dispatch) => {
+    const { data } = await ApiService.submitRegistData(registData);
+    if (data.token) {
+      setTokenToStore(data.token);
+      dispatch(fetchProfileData(data));
+      dispatch(toggleIsAuth());
+    } else {
+      Alert.alert('Что-то пошло не так!');
+    }
   };
 };
 
 export const submitLogIn = (logInData) => {
-  return (dispatch) => {
-    ApiService.submitLogInData(logInData).then(({ data }) => {
-      if (data.token) {
-        setTokenToStore(data.token);
-        dispatch(fetchProfileData(data));
-        dispatch(toggleIsAuth());
-      } else {
-        Alert.alert('Не верный логин или пароль!');
-      }
-    });
+  return async (dispatch) => {
+    const { data } = await ApiService.submitLogInData(logInData);
+    if (data.token) {
+      setTokenToStore(data.token);
+      dispatch(fetchProfileData(data));
+      dispatch(toggleIsAuth());
+    } else {
+      Alert.alert('Не верный логин или пароль!');
+    }
   };
 };

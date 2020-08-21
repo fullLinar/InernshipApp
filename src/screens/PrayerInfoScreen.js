@@ -2,10 +2,9 @@ import React from 'react';
 import PrayerInfo from '../components/PrayerInfo';
 import { connect } from 'react-redux';
 import {
-  getCommentsFromApi,
-  setNewCommentToApi,
-  deleteCommentFromApi,
-  setCommentNewTitle,
+  addComment,
+  deleteComment,
+  editComment,
 } from '../actions/commentsAction';
 import {
   getPrayerCommentsId,
@@ -17,9 +16,10 @@ import {
 class PrayerInfoScreen extends React.Component {
   constructor(props) {
     super(props);
+    this.prayerId = this.props.route.params.prayerId;
     this.state = {
       body: '',
-      created: `${this.props.route.params.prayerId}`,
+      created: `${this.prayerId}`,
     };
   }
 
@@ -28,23 +28,19 @@ class PrayerInfoScreen extends React.Component {
   };
 
   addComment = async () => {
-    const prayerId = this.props.route.params.prayerId;
-    if (this.state.body !== '') {
-      await this.props.setNewCommentToApi(this.state, prayerId);
+    const { body, created } = this.state;
+    if (body !== '') {
+      await this.props.addComment({ body, created }, this.prayerId);
       this.setState({ body: '' });
     }
-  };
-
-  deleteComment = (commentId) => {
-    this.props.deleteCommentFromApi(commentId);
   };
 
   editCommentBody = (commentText, commentId) => {
     const commentBody = {
       body: commentText,
-      created: `${this.props.route.params.prayerId}`,
+      created: `${this.prayerId}`,
     };
-    this.props.setCommentNewTitle(commentBody, commentId);
+    this.props.editComment(commentBody, commentId);
   };
 
   render() {
@@ -58,7 +54,7 @@ class PrayerInfoScreen extends React.Component {
         editCommentBody={this.editCommentBody}
         commentBody={this.state.body}
         addComment={this.addComment}
-        deleteComment={this.deleteComment}
+        deleteComment={this.props.deleteComment}
         isFetching={this.props.isFetching}
       />
     );
@@ -75,10 +71,9 @@ const mapStateToProps = (state, props) => {
 };
 
 const mapDispatchToProps = {
-  getCommentsFromApi,
-  setNewCommentToApi,
-  deleteCommentFromApi,
-  setCommentNewTitle,
+  addComment,
+  deleteComment,
+  editComment,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(PrayerInfoScreen);

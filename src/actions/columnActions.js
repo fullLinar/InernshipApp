@@ -59,11 +59,13 @@ export const getColumns = () => {
   return async (dispatch) => {
     dispatch(toggleIsFetching(true));
     const token = await retrieveToken();
-
-    ApiService.getColumns(token).then(({ data }) => {
+    const { data } = await ApiService.getColumns(token);
+    try {
       dispatch(fetchColumns(data));
       dispatch(toggleIsFetching(false));
-    });
+    } catch (err) {
+      throw err;
+    }
   };
 };
 
@@ -71,14 +73,14 @@ export const addColumn = (columnData) => {
   return async (dispatch) => {
     dispatch(toggleIsFetching(true));
     const token = await retrieveToken();
-
-    ApiService.setColumn(columnData, token).then(({ data }) => {
-      if (data.id) {
-        dispatch(fetchColumn(data));
-        dispatch(toggleIsAddInput());
-        dispatch(toggleIsFetching(false));
-      }
-    });
+    const { data } = await ApiService.setColumn(columnData, token);
+    try {
+      dispatch(fetchColumn(data));
+      dispatch(toggleIsAddInput());
+      dispatch(toggleIsFetching(false));
+    } catch (err) {
+      throw err;
+    }
   };
 };
 
@@ -86,10 +88,13 @@ export const deleteColumn = (colId) => {
   return async (dispatch) => {
     dispatch(toggleIsFetching(true));
     const token = await retrieveToken();
-    return ApiService.deleteColumn(colId, token).then(
-      dispatch(fetchDeletedColumn(colId)),
-      dispatch(toggleIsFetching(false)),
-    );
+    await ApiService.deleteColumn(colId, token);
+    try {
+      dispatch(fetchDeletedColumn(colId));
+      dispatch(toggleIsFetching(false));
+    } catch (err) {
+      throw err;
+    }
   };
 };
 
@@ -97,12 +102,12 @@ export const editColumnTitle = (columnData, colId) => {
   return async (dispatch) => {
     dispatch(toggleIsFetching(true));
     const token = await retrieveToken();
-
-    return ApiService.editColumnData(columnData, colId, token).then(
-      ({ data }) => {
-        dispatch(fetchNewColumnTitle(data.id, data.title));
-        dispatch(toggleIsFetching(false));
-      },
-    );
+    const { data } = await ApiService.editColumnData(columnData, colId, token);
+    try {
+      dispatch(fetchNewColumnTitle(data.id, data.title));
+      dispatch(toggleIsFetching(false));
+    } catch (err) {
+      throw err;
+    }
   };
 };

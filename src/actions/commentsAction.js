@@ -1,8 +1,8 @@
 import {
   FETCH_COMMENTS,
-  SET_NEW_COMMENT,
-  EDIT_COMMENT,
-  DELETE_COMMENT,
+  FETCH_ADDED_COMMENT,
+  FETCH_EDITED_COMMENT,
+  FETCH_DELETED_COMMENT,
 } from '../reducers/commentsReducer';
 import { SET_COMMENT_ID } from '../reducers/prayersReducer';
 import { toggleIsFetching } from './columnActions';
@@ -16,16 +16,16 @@ const fetchComments = (comments) => {
   };
 };
 
-const setNewComment = (comment) => {
+const fetchAddedComment = (comment) => {
   return {
-    type: SET_NEW_COMMENT,
+    type: FETCH_ADDED_COMMENT,
     payload: { comment },
   };
 };
 
-const editComment = (commentId, commentBody) => {
+const fetchEditedComment = (commentId, commentBody) => {
   return {
-    type: EDIT_COMMENT,
+    type: FETCH_EDITED_COMMENT,
     payload: {
       commentId,
       commentBody,
@@ -33,9 +33,9 @@ const editComment = (commentId, commentBody) => {
   };
 };
 
-const dleteComment = (commentId) => {
+const fetchDeletedComment = (commentId) => {
   return {
-    type: DELETE_COMMENT,
+    type: FETCH_DELETED_COMMENT,
     payload: {
       commentId,
     },
@@ -53,61 +53,63 @@ const setCommentId = (prayerId, commentId) => {
 };
 //-----------------------Thunks--------------------------
 
-export const getCommentsFromApi = () => {
+export const getComments = () => {
   return async (dispatch) => {
     dispatch(toggleIsFetching(true));
     const token = await retrieveToken();
-
-    ApiServices.getComments(token).then(({ data }) => {
-      if (data) {
-        dispatch(fetchComments(data));
-        dispatch(toggleIsFetching(false));
-      }
-    });
+    const { data } = await ApiServices.getComments(token);
+    try {
+      dispatch(fetchComments(data));
+      dispatch(toggleIsFetching(false));
+    } catch (err) {
+      throw err;
+    }
   };
 };
 
-export const setNewCommentToApi = (commentBody, prayerId) => {
+export const addComment = (commentBody, prayerId) => {
   return async (dispatch) => {
     dispatch(toggleIsFetching(true));
     const token = await retrieveToken();
-    ApiServices.setComment(commentBody, prayerId, token)
-      .then(({ data }) => {
-        if (data) {
-          dispatch(setNewComment(data));
-          dispatch(setCommentId(prayerId, data.id));
-          dispatch(toggleIsFetching(false));
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-        dispatch(toggleIsFetching(false));
-      });
+    const { data } = await ApiServices.setComment(commentBody, prayerId, token);
+    try {
+      dispatch(fetchAddedComment(data));
+      dispatch(setCommentId(prayerId, data.id));
+      dispatch(toggleIsFetching(false));
+    } catch (err) {
+      throw err;
+    }
   };
 };
 
-export const setCommentNewTitle = (commentBody, commentId) => {
+export const editComment = (commentBody, commentId) => {
   return async (dispatch) => {
     dispatch(toggleIsFetching(true));
     const token = await retrieveToken();
-    ApiServices.editComment(commentBody, commentId, token).then(({ data }) => {
-      if (data.id) {
-        dispatch(editComment(data.id, data.body));
-        dispatch(toggleIsFetching(false));
-      }
-    });
+    const { data } = await ApiServices.editComment(
+      commentBody,
+      commentId,
+      token,
+    );
+    try {
+      dispatch(fetchEditedComment(data.id, data.body));
+      dispatch(toggleIsFetching(false));
+    } catch (err) {
+      throw err;
+    }
   };
 };
 
-export const deleteCommentFromApi = (commentId) => {
+export const deleteComment = (commentId) => {
   return async (dispatch) => {
     dispatch(toggleIsFetching(true));
     const token = await retrieveToken();
-    ApiServices.deleteComment(commentId, token).then(({ data }) => {
-      if (data.raw) {
-        dispatch(dleteComment(commentId));
-        dispatch(toggleIsFetching(false));
-      }
-    });
+    await ApiServices.deleteComment(commentId, token);
+    try {
+      dispatch(fetchDeletedComment(commentId));
+      dispatch(toggleIsFetching(false));
+    } catch (err) {
+      throw err;
+    }
   };
 };

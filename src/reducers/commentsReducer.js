@@ -1,7 +1,7 @@
 export const FETCH_COMMENTS = 'FETCH-COMMENTS';
-export const SET_NEW_COMMENT = 'SET-NEW-COMMENT';
-export const EDIT_COMMENT = 'EDIT-COMMENT';
-export const DELETE_COMMENT = 'DELETE-COMMENT';
+export const FETCH_ADDED_COMMENT = 'FETCH-ADDED-COMMENT';
+export const FETCH_EDITED_COMMENT = 'FETCH-EDITED-COMMENT';
+export const FETCH_DELETED_COMMENT = 'FETCH-DELETED-COMMENT';
 
 const initialState = {
   comments: [],
@@ -14,13 +14,13 @@ const actionMap = {
       comments: action.payload.comments,
     };
   },
-  [SET_NEW_COMMENT]: (state, action) => {
+  [FETCH_ADDED_COMMENT]: (state, action) => {
     return {
       ...state,
       comments: [...state.comments, action.payload.comment],
     };
   },
-  [EDIT_COMMENT]: (state, action) => {
+  [FETCH_EDITED_COMMENT]: (state, action) => {
     return {
       ...state,
       comments: state.comments.map((comment) => {
@@ -35,7 +35,7 @@ const actionMap = {
       }),
     };
   },
-  [DELETE_COMMENT]: (state, action) => {
+  [FETCH_DELETED_COMMENT]: (state, action) => {
     return {
       ...state,
       comments: state.comments.filter(

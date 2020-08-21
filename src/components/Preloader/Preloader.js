@@ -2,7 +2,7 @@ import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import AnimatedEllipsis from 'react-native-animated-ellipsis';
 
-const Preloader = (props) => {
+const Preloader = () => {
   return (
     <>
       <View style={styles.container}>
