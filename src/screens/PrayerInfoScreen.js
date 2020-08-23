@@ -2,6 +2,7 @@ import React from 'react';
 import PrayerInfo from '../components/PrayerInfo';
 import { connect } from 'react-redux';
 import {
+  getComments,
   addComment,
   deleteComment,
   editComment,
@@ -23,24 +24,30 @@ class PrayerInfoScreen extends React.Component {
     };
   }
 
+  componentDidMount() {
+    this.props.getComments();
+  }
+
   onChangeCommentBody = (bodyText) => {
     this.setState({ body: bodyText });
   };
 
   addComment = async () => {
     const { body, created } = this.state;
+    const commentBody = { body, created };
+    const { addComment } = this.props;
     if (body !== '') {
-      await this.props.addComment({ body, created }, this.prayerId);
+      await addComment({ commentBody, prayerId: this.prayerId });
       this.setState({ body: '' });
     }
   };
 
-  editCommentBody = (commentText, commentId) => {
+  editCommentBody = ({ newText, commentId }) => {
     const commentBody = {
-      body: commentText,
+      body: newText,
       created: `${this.prayerId}`,
     };
-    this.props.editComment(commentBody, commentId);
+    this.props.editComment({ commentBody, commentId });
   };
 
   render() {
@@ -71,6 +78,7 @@ const mapStateToProps = (state, props) => {
 };
 
 const mapDispatchToProps = {
+  getComments,
   addComment,
   deleteComment,
   editComment,

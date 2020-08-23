@@ -20,7 +20,7 @@ const actionMap = {
   [FETCH_PRAYER]: (state, action) => {
     return {
       ...state,
-      prayers: [...state.prayers, action.payload.data],
+      prayers: [...state.prayers, action.payload.newPrayer],
     };
   },
   [FETCH_CHANGED_CHECKED]: (state, action) => {

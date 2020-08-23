@@ -10,21 +10,21 @@ import { toggleIsFetching } from './columnActions';
 import ApiService from '../utils/ApiService';
 
 import { retrieveToken } from '../utils/utils';
-const setPrayers = (data) => {
+const setPrayers = ({ data }) => {
   return {
     type: FETCH_PRAYERS,
     payload: { data },
   };
 };
 
-const fetchPrayer = (data) => {
+const fetchPrayer = ({ newPrayer }) => {
   return {
     type: FETCH_PRAYER,
-    payload: { data },
+    payload: { newPrayer },
   };
 };
 
-const fetchChangedChecked = (prayerId, checked) => {
+const fetchChangedChecked = ({ prayerId, checked }) => {
   return {
     type: FETCH_CHANGED_CHECKED,
     payload: {
@@ -34,14 +34,14 @@ const fetchChangedChecked = (prayerId, checked) => {
   };
 };
 
-const fetchDeletedPrayer = (prayerId) => {
+const fetchDeletedPrayer = ({ prayerId }) => {
   return {
     type: FETCH_DELETED_PRAYER,
     payload: { prayerId },
   };
 };
 
-const fetchEditedPrayerTitle = (prayerId, title) => {
+const fetchEditedPrayerTitle = ({ prayerId, title }) => {
   return {
     type: FETCH_EDITED_PRAYER_TITLE,
     payload: {
@@ -63,9 +63,9 @@ export const getPrayers = () => {
   return async (dispatch) => {
     dispatch(toggleIsFetching(true));
     const token = await retrieveToken();
-    const { data } = await ApiService.getPrayers(token);
+    const { data } = await ApiService.getPrayers({ token });
     try {
-      dispatch(setPrayers(data));
+      dispatch(setPrayers({ data }));
       dispatch(toggleIsFetching(false));
     } catch (err) {
       throw err;
@@ -73,14 +73,14 @@ export const getPrayers = () => {
   };
 };
 
-export const addPrayer = (prayerData) => {
+export const addPrayer = ({ prayerData }) => {
   return async (dispatch) => {
     dispatch(toggleIsFetching(true));
     const token = await retrieveToken();
-    const { data } = await ApiService.setPrayer(prayerData, token);
+    const { data } = await ApiService.setPrayer({ prayerData, token });
     try {
       const newPrayer = { ...data, commentsIds: [] };
-      dispatch(fetchPrayer(newPrayer));
+      dispatch(fetchPrayer({ newPrayer }));
       dispatch(toggleIsFetching(false));
     } catch (err) {
       throw err;
@@ -88,17 +88,18 @@ export const addPrayer = (prayerData) => {
   };
 };
 
-export const onChangePrayerChecked = (prayerData, prayerId) => {
+export const onChangePrayerChecked = ({ prayerData, prayerId }) => {
   return async (dispatch) => {
     dispatch(toggleIsFetching(true));
     const token = await retrieveToken();
-    const { data } = await ApiService.toggleCheckedPrayer(
+    const { data } = await ApiService.toggleCheckedPrayer({
       prayerData,
       prayerId,
       token,
-    );
+    });
     try {
-      dispatch(fetchChangedChecked(prayerId, data.checked));
+      const { checked } = data;
+      dispatch(fetchChangedChecked({ prayerId, checked }));
       dispatch(toggleIsFetching(false));
     } catch (err) {
       throw err;
@@ -106,13 +107,13 @@ export const onChangePrayerChecked = (prayerData, prayerId) => {
   };
 };
 
-export const deletePrayer = (prayerId) => {
+export const deletePrayer = ({ prayerId }) => {
   return async (dispatch) => {
     dispatch(toggleIsFetching(true));
     const token = await retrieveToken();
-    await ApiService.deletePrayer(prayerId, token);
+    await ApiService.deletePrayer({ prayerId, token });
     try {
-      dispatch(fetchDeletedPrayer(prayerId));
+      dispatch(fetchDeletedPrayer({ prayerId }));
       dispatch(toggleIsFetching(false));
     } catch (err) {
       throw err;
@@ -120,17 +121,18 @@ export const deletePrayer = (prayerId) => {
   };
 };
 
-export const editPrayerTitle = (prayerData, prayerId) => {
+export const editPrayerTitle = ({ prayerData, prayerId }) => {
   return async (dispatch) => {
     dispatch(toggleIsFetching(true));
     const token = await retrieveToken();
-    const { data } = await ApiService.editPrayerTitle(
+    const { data } = await ApiService.editPrayerTitle({
       prayerData,
       prayerId,
       token,
-    );
+    });
     try {
-      dispatch(fetchEditedPrayerTitle(prayerId, data.title));
+      const { title } = data;
+      dispatch(fetchEditedPrayerTitle({ prayerId, title }));
       dispatch(toggleIsFetching(false));
     } catch (err) {
       throw err;

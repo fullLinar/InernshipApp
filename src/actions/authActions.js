@@ -18,9 +18,9 @@ export const toggleIsAuth = () => {
 
 //-----------------------Thunks--------------------------
 
-export const submitRegistration = (registData) => {
+export const submitRegistration = ({ registData }) => {
   return async (dispatch) => {
-    const { data } = await ApiService.submitRegistData(registData);
+    const { data } = await ApiService.submitRegistData({ registData });
     if (data.token) {
       setTokenToStore(data.token);
       dispatch(fetchProfileData(data));
@@ -31,9 +31,9 @@ export const submitRegistration = (registData) => {
   };
 };
 
-export const submitLogIn = (logInData) => {
+export const submitLogIn = ({ logInData }) => {
   return async (dispatch) => {
-    const { data } = await ApiService.submitLogInData(logInData);
+    const { data } = await ApiService.submitLogInData({ logInData });
     if (data.token) {
       setTokenToStore(data.token);
       dispatch(fetchProfileData(data));

@@ -19,12 +19,14 @@ class PrayerScreen extends React.Component {
       checked: this.prayer.checked ? false : true,
       column: this.props.columnData,
     };
-    this.props.onChangePrayerChecked(prayerData, prayerId);
+    const { onChangePrayerChecked } = this.props;
+    onChangePrayerChecked({ prayerData, prayerId });
   };
 
   deletePrayer = () => {
     const prayerId = this.prayer.id;
-    this.props.deletePrayer(prayerId);
+    const { deletePrayer } = this.props;
+    deletePrayer({ prayerId });
   };
 
   setPrayerTitle = (titleText) => {
@@ -34,7 +36,8 @@ class PrayerScreen extends React.Component {
       title: titleText,
       column: this.props.columnData,
     };
-    this.props.editPrayerTitle(prayerData, prayerId);
+    const { editPrayerTitle } = this.props;
+    editPrayerTitle({ prayerData, prayerId });
   };
 
   render() {

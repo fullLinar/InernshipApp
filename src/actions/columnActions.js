@@ -23,11 +23,11 @@ const fetchColumn = (column) => {
   };
 };
 
-const fetchNewColumnTitle = (colId, title) => {
+const fetchNewColumnTitle = ({ id, title }) => {
   return {
     type: FETCH_CHANGED_TITLE,
     payload: {
-      colId,
+      colId: id,
       title,
     },
   };
@@ -59,7 +59,7 @@ export const getColumns = () => {
   return async (dispatch) => {
     dispatch(toggleIsFetching(true));
     const token = await retrieveToken();
-    const { data } = await ApiService.getColumns(token);
+    const { data } = await ApiService.getColumns({ token });
     try {
       dispatch(fetchColumns(data));
       dispatch(toggleIsFetching(false));
@@ -69,11 +69,11 @@ export const getColumns = () => {
   };
 };
 
-export const addColumn = (columnData) => {
+export const addColumn = ({ columnData }) => {
   return async (dispatch) => {
     dispatch(toggleIsFetching(true));
     const token = await retrieveToken();
-    const { data } = await ApiService.setColumn(columnData, token);
+    const { data } = await ApiService.setColumn({ columnData, token });
     try {
       dispatch(fetchColumn(data));
       dispatch(toggleIsAddInput());
@@ -84,11 +84,11 @@ export const addColumn = (columnData) => {
   };
 };
 
-export const deleteColumn = (colId) => {
+export const deleteColumn = ({ colId }) => {
   return async (dispatch) => {
     dispatch(toggleIsFetching(true));
     const token = await retrieveToken();
-    await ApiService.deleteColumn(colId, token);
+    await ApiService.deleteColumn({ colId, token });
     try {
       dispatch(fetchDeletedColumn(colId));
       dispatch(toggleIsFetching(false));
@@ -98,13 +98,18 @@ export const deleteColumn = (colId) => {
   };
 };
 
-export const editColumnTitle = (columnData, colId) => {
+export const editColumnTitle = ({ columnData, colId }) => {
   return async (dispatch) => {
     dispatch(toggleIsFetching(true));
     const token = await retrieveToken();
-    const { data } = await ApiService.editColumnData(columnData, colId, token);
+    const { data } = await ApiService.editColumnData({
+      columnData,
+      colId,
+      token,
+    });
     try {
-      dispatch(fetchNewColumnTitle(data.id, data.title));
+      const { id, title } = data;
+      dispatch(fetchNewColumnTitle({ id, title }));
       dispatch(toggleIsFetching(false));
     } catch (err) {
       throw err;

@@ -23,14 +23,14 @@ const ColumnButton = ({
   };
 
   const setTitle = () => {
-    editColumnTitle(newTitle, descr, colId);
+    editColumnTitle({ newTitle, descr, colId });
   };
 
   const swipeOutBtn = [
     {
       text: 'delete',
       backgroundColor: '#AC5253',
-      onPress: () => onPressDelete(colId),
+      onPress: () => onPressDelete({ colId }),
     },
   ];
 

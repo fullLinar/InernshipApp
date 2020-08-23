@@ -26,10 +26,11 @@ class MyDeskScreen extends React.Component {
 
   createColumn = () => {
     const { title, description } = this.state;
+    const columnData = { title, description };
     const { addColumn } = this.props;
 
     if (title !== '') {
-      addColumn({ title, description });
+      addColumn({ columnData });
     }
   };
 
@@ -37,12 +38,13 @@ class MyDeskScreen extends React.Component {
     this.setState({ title: titleText });
   };
 
-  editColumnTitle = (colTitle, descr, colId) => {
+  editColumnTitle = ({ newTitle, descr, colId }) => {
     let columnData = {
-      title: colTitle,
+      title: newTitle,
       description: descr,
     };
-    this.props.editColumnTitle(columnData, colId);
+    const { editColumnTitle } = this.props;
+    editColumnTitle({ columnData, colId });
   };
   render() {
     return (

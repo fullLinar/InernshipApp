@@ -9,31 +9,31 @@ import { toggleIsFetching } from './columnActions';
 import ApiServices from '../utils/ApiService';
 import { retrieveToken } from '../utils/utils';
 
-const fetchComments = (comments) => {
+const fetchComments = ({ data }) => {
   return {
     type: FETCH_COMMENTS,
-    payload: { comments },
+    payload: { comments: data },
   };
 };
 
-const fetchAddedComment = (comment) => {
+const fetchAddedComment = ({ data }) => {
   return {
     type: FETCH_ADDED_COMMENT,
-    payload: { comment },
+    payload: { comment: data },
   };
 };
 
-const fetchEditedComment = (commentId, commentBody) => {
+const fetchEditedComment = ({ id, body }) => {
   return {
     type: FETCH_EDITED_COMMENT,
     payload: {
-      commentId,
-      commentBody,
+      commentId: id,
+      commentBody: body,
     },
   };
 };
 
-const fetchDeletedComment = (commentId) => {
+const fetchDeletedComment = ({ commentId }) => {
   return {
     type: FETCH_DELETED_COMMENT,
     payload: {
@@ -42,12 +42,12 @@ const fetchDeletedComment = (commentId) => {
   };
 };
 
-const setCommentId = (prayerId, commentId) => {
+const setCommentId = ({ prayerId, id }) => {
   return {
     type: SET_COMMENT_ID,
     payload: {
       prayerId,
-      commentId,
+      commentId: id,
     },
   };
 };
@@ -57,9 +57,10 @@ export const getComments = () => {
   return async (dispatch) => {
     dispatch(toggleIsFetching(true));
     const token = await retrieveToken();
-    const { data } = await ApiServices.getComments(token);
+    const { data } = await ApiServices.getComments({ token });
+    console.log();
     try {
-      dispatch(fetchComments(data));
+      dispatch(fetchComments({ data }));
       dispatch(toggleIsFetching(false));
     } catch (err) {
       throw err;
@@ -67,14 +68,19 @@ export const getComments = () => {
   };
 };
 
-export const addComment = (commentBody, prayerId) => {
+export const addComment = ({ commentBody, prayerId }) => {
   return async (dispatch) => {
     dispatch(toggleIsFetching(true));
     const token = await retrieveToken();
-    const { data } = await ApiServices.setComment(commentBody, prayerId, token);
+    const { data } = await ApiServices.setComment({
+      commentBody,
+      prayerId,
+      token,
+    });
     try {
-      dispatch(fetchAddedComment(data));
-      dispatch(setCommentId(prayerId, data.id));
+      const { id } = data;
+      dispatch(fetchAddedComment({ data }));
+      dispatch(setCommentId({ prayerId, id }));
       dispatch(toggleIsFetching(false));
     } catch (err) {
       throw err;
@@ -82,17 +88,18 @@ export const addComment = (commentBody, prayerId) => {
   };
 };
 
-export const editComment = (commentBody, commentId) => {
+export const editComment = ({ commentBody, commentId }) => {
   return async (dispatch) => {
     dispatch(toggleIsFetching(true));
     const token = await retrieveToken();
-    const { data } = await ApiServices.editComment(
+    const { data } = await ApiServices.editComment({
       commentBody,
       commentId,
       token,
-    );
+    });
     try {
-      dispatch(fetchEditedComment(data.id, data.body));
+      const { id, body } = data;
+      dispatch(fetchEditedComment({ id, body }));
       dispatch(toggleIsFetching(false));
     } catch (err) {
       throw err;
@@ -100,13 +107,13 @@ export const editComment = (commentBody, commentId) => {
   };
 };
 
-export const deleteComment = (commentId) => {
+export const deleteComment = ({ commentId }) => {
   return async (dispatch) => {
     dispatch(toggleIsFetching(true));
     const token = await retrieveToken();
-    await ApiServices.deleteComment(commentId, token);
+    await ApiServices.deleteComment({ commentId, token });
     try {
-      dispatch(fetchDeletedComment(commentId));
+      dispatch(fetchDeletedComment({ commentId }));
       dispatch(toggleIsFetching(false));
     } catch (err) {
       throw err;

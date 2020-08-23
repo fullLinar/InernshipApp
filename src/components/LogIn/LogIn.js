@@ -6,7 +6,8 @@ import { Form, Field } from 'react-final-form';
 
 const LogIn = ({ navigation, logIn, email, pass }) => {
   const onSubmit = (value) => {
-    logIn(value);
+    const logInData = value;
+    logIn({ logInData });
   };
 
   const renderEmailInput = ({ input, meta }) => {

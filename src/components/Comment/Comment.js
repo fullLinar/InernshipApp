@@ -13,7 +13,7 @@ const Comment = ({
   profileName,
 }) => {
   const [isEditComment, setIsEdit] = useState(false);
-  const [commentBody, setCommentText] = useState(body);
+  const [newText, setCommentText] = useState(body);
 
   const handleIsEdit = () => {
     isEditComment ? setIsEdit(false) : setIsEdit(true);
@@ -24,7 +24,7 @@ const Comment = ({
   };
 
   const setCommentBody = () => {
-    editCommentBody(commentBody, commentId);
+    editCommentBody({ newText, commentId });
     handleIsEdit();
   };
 
@@ -32,7 +32,7 @@ const Comment = ({
     {
       text: 'delete',
       backgroundColor: '#AC5253',
-      onPress: () => deleteComment(commentId),
+      onPress: () => deleteComment({ commentId }),
     },
   ];
 
@@ -45,7 +45,7 @@ const Comment = ({
         onBlur={setCommentBody}
         onPress={setCommentBody}
         onChange={editCommentText}
-        title={commentBody}
+        title={newText}
       />
     );
   }

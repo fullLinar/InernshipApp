@@ -31,12 +31,11 @@ class ColumnScreen extends React.Component {
   createPrayer = () => {
     const { title, description } = this.state;
     const { column } = this.props;
+    const prayerData = { title, description, column };
+    const { addPrayer } = this.props;
     if (title !== '') {
-      this.props.addPrayer({ title, description, column });
+      addPrayer({ prayerData });
     }
-  };
-  toggleShowChecked = () => {
-    this.props.toggleShowChecked();
   };
   render() {
     return (
@@ -47,7 +46,7 @@ class ColumnScreen extends React.Component {
         onChangeTitle={this.onChangeTitle}
         createPrayer={this.createPrayer}
         isShowChecked={this.props.isShowChecked}
-        toggleShowChecked={this.toggleShowChecked}
+        toggleShowChecked={this.props.toggleShowChecked}
         navigation={this.props.navigation}
       />
     );

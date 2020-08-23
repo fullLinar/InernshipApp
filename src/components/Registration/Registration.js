@@ -12,7 +12,8 @@ const Registration = ({
   navigation,
 }) => {
   const onSubmit = (values) => {
-    submitRegistrationData(values);
+    const registData = values;
+    submitRegistrationData({ registData });
   };
 
   const renderNameInput = ({ input, meta }) => {
