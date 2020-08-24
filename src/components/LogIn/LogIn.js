@@ -28,6 +28,7 @@ const LogIn = ({ navigation, logIn, email, pass }) => {
             validate={composeValidators(validateRequiredField, validateEmail)}
             textContentType={'emailAddress'}
             value={email}
+            onKeyPress={handleSubmit}
           />
           <Text style={styles.subTitles}>Password:</Text>
           <Field
@@ -37,6 +38,7 @@ const LogIn = ({ navigation, logIn, email, pass }) => {
             textContentType={'password'}
             secureTextEntry={true}
             value={pass}
+            onKeyPress={handleSubmit}
           />
           <CustomButton title="Log In" onPress={handleSubmit} />
           <CustomButton

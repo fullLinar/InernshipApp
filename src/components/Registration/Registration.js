@@ -33,6 +33,7 @@ const Registration = ({
             component={FormField}
             validate={validateRequiredField}
             textContentType={'name'}
+            autoCapitalize="sentences"
             value={name}
           />
           <Text style={styles.subTitles}>Email:</Text>
