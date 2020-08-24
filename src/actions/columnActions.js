@@ -7,7 +7,6 @@ import {
   TOGGLE_IS_ADD_INPUT,
 } from '../reducers/columnsReducer';
 import ApiService from '../utils/ApiService';
-import { retrieveToken } from '../utils/utils';
 
 const fetchColumns = (columns) => {
   return {
@@ -58,8 +57,7 @@ export const toggleIsAddInput = () => {
 export const getColumns = () => {
   return async (dispatch) => {
     dispatch(toggleIsFetching(true));
-    const token = await retrieveToken();
-    const { data } = await ApiService.getColumns({ token });
+    const { data } = await ApiService.getColumns();
     try {
       dispatch(fetchColumns(data));
       dispatch(toggleIsFetching(false));
@@ -72,8 +70,7 @@ export const getColumns = () => {
 export const addColumn = ({ columnData }) => {
   return async (dispatch) => {
     dispatch(toggleIsFetching(true));
-    const token = await retrieveToken();
-    const { data } = await ApiService.setColumn({ columnData, token });
+    const { data } = await ApiService.setColumn({ columnData });
     try {
       dispatch(fetchColumn(data));
       dispatch(toggleIsAddInput());
@@ -87,8 +84,7 @@ export const addColumn = ({ columnData }) => {
 export const deleteColumn = ({ colId }) => {
   return async (dispatch) => {
     dispatch(toggleIsFetching(true));
-    const token = await retrieveToken();
-    await ApiService.deleteColumn({ colId, token });
+    await ApiService.deleteColumn({ colId });
     try {
       dispatch(fetchDeletedColumn(colId));
       dispatch(toggleIsFetching(false));
@@ -101,11 +97,9 @@ export const deleteColumn = ({ colId }) => {
 export const editColumnTitle = ({ columnData, colId }) => {
   return async (dispatch) => {
     dispatch(toggleIsFetching(true));
-    const token = await retrieveToken();
     const { data } = await ApiService.editColumnData({
       columnData,
       colId,
-      token,
     });
     try {
       const { id, title } = data;

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Button } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import LoginScreen from '../../screens/LoginScreen';
@@ -7,13 +8,14 @@ import { connect } from 'react-redux';
 import { getAuth } from '../../selectors/selectors';
 import myDeskScreen from '../../screens/MyDeskScreen';
 import AddButton from '../common/AddButton';
+import { toggleIsAuth } from '../../actions/authActions';
 import { toggleIsAddInput } from '../../actions/columnActions';
 import SettingButton from '../common/SettingButton/SettingButton';
 import ColumnTabBar from '../ColumnTabBar/ColumnTabBar';
 import PrayerInfoScreen from '../../screens/PrayerInfoScreen';
 import PrayerHeader from '../PrayerHeader/PrayerHeader';
 
-const Navigation = ({ isAuth, toggleIsAddInput }) => {
+const Navigation = ({ isAuth, toggleIsAddInput, toggleIsAuth }) => {
   const Stack = createStackNavigator();
   return (
     <NavigationContainer>
@@ -37,6 +39,9 @@ const Navigation = ({ isAuth, toggleIsAddInput }) => {
                     width={16}
                     height={16}
                   />
+                ),
+                headerLeft: () => (
+                  <Button title="Log Out" onPress={() => toggleIsAuth()} />
                 ),
               }}
             />
@@ -84,5 +89,6 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
   toggleIsAddInput,
+  toggleIsAuth,
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Navigation);

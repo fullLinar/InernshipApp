@@ -1,9 +1,24 @@
 import axios from 'axios';
-
+import { retrieveToken } from '../utils';
 class ApiService {
-  axiosInstance = axios.create({
-    baseURL: 'https://trello-purrweb.herokuapp.com/',
-  });
+  instance = async () => {
+    const token = await retrieveToken();
+
+    let headers = {};
+
+    if (token) {
+      headers = {
+        Authorization: 'Bearer ' + token,
+        'Content-Type': 'application/json',
+      };
+    }
+
+    const instance = axios.create({
+      headers,
+      baseURL: 'https://trello-purrweb.herokuapp.com/',
+    });
+    return instance;
+  };
 
   submitRegistData = ({ registData }) => {
     return axios.post(
@@ -19,121 +34,81 @@ class ApiService {
     );
   };
 
-  getColumns = ({ token }) => {
-    return this.axiosInstance.get('columns', {
-      headers: {
-        Authorization: 'Bearer ' + token,
-        'Content-Type': 'application/json',
-      },
-    });
+  getColumns = async () => {
+    const axiosInstance = await this.instance();
+    return axiosInstance.get('columns');
   };
 
-  setColumn = ({ columnData, token }) => {
-    return this.axiosInstance.post('columns', columnData, {
-      headers: {
-        Authorization: 'Bearer ' + token,
-        'Content-Type': 'application/json',
-      },
-    });
+  setColumn = async ({ columnData }) => {
+    const axiosInstance = await this.instance();
+
+    return axiosInstance.post('columns', columnData);
   };
 
-  deleteColumn = ({ colId, token }) => {
-    return this.axiosInstance.delete(`columns/${colId}`, {
-      headers: {
-        Authorization: 'Bearer ' + token,
-        'Content-Type': 'application/json',
-      },
-    });
+  deleteColumn = async ({ colId }) => {
+    const axiosInstance = await this.instance();
+
+    return axiosInstance.delete(`columns/${colId}`);
   };
 
-  editColumnData = ({ columnData, colId, token }) => {
-    return this.axiosInstance.put(`columns/${colId}`, columnData, {
-      headers: {
-        Authorization: 'Bearer ' + token,
-        'Content-Type': 'application/json',
-      },
-    });
+  editColumnData = async ({ columnData, colId }) => {
+    const axiosInstance = await this.instance();
+
+    return axiosInstance.put(`columns/${colId}`, columnData);
   };
 
-  getPrayers = ({ token }) => {
-    return this.axiosInstance.get('cards', {
-      headers: {
-        Authorization: 'Bearer ' + token,
-        'Content-Type': 'application/json',
-      },
-    });
+  getPrayers = async () => {
+    const axiosInstance = await this.instance();
+
+    return axiosInstance.get('cards');
   };
 
-  setPrayer = ({ prayerData, token }) => {
-    return this.axiosInstance.post('cards', prayerData, {
-      headers: {
-        Authorization: 'Bearer ' + token,
-        'Content-Type': 'application/json',
-      },
-    });
+  setPrayer = async ({ prayerData }) => {
+    const axiosInstance = await this.instance();
+
+    return axiosInstance.post('cards', prayerData);
   };
 
-  toggleCheckedPrayer = ({ prayerData, prayerId, token }) => {
-    return this.axiosInstance.put(`cards/${prayerId}`, prayerData, {
-      headers: {
-        Authorization: 'Bearer ' + token,
-        'Content-Type': 'application/json',
-      },
-    });
+  toggleCheckedPrayer = async ({ prayerData, prayerId }) => {
+    const axiosInstance = await this.instance();
+
+    return axiosInstance.put(`cards/${prayerId}`, prayerData);
   };
 
-  editPrayerTitle = ({ prayerData, prayerId, token }) => {
-    return this.axiosInstance.put(`cards/${prayerId}`, prayerData, {
-      headers: {
-        Authorization: 'Bearer ' + token,
-        'Content-Type': 'application/json',
-      },
-    });
+  editPrayerTitle = async ({ prayerData, prayerId }) => {
+    const axiosInstance = await this.instance();
+
+    return axiosInstance.put(`cards/${prayerId}`, prayerData);
   };
 
-  deletePrayer = ({ prayerId, token }) => {
-    return this.axiosInstance.delete(`cards/${prayerId}`, {
-      headers: {
-        Authorization: 'Bearer ' + token,
-        'Content-Type': 'application/json',
-      },
-    });
+  deletePrayer = async ({ prayerId }) => {
+    const axiosInstance = await this.instance();
+
+    return axiosInstance.delete(`cards/${prayerId}`);
   };
 
-  getComments = ({ token }) => {
-    return this.axiosInstance.get('comments', {
-      headers: {
-        Authorization: 'Bearer ' + token,
-        'Content-Type': 'application/json',
-      },
-    });
+  getComments = async ({ token }) => {
+    const axiosInstance = await this.instance();
+
+    return axiosInstance.get('comments');
   };
 
-  setComment = ({ commentBody, prayerId, token }) => {
-    return this.axiosInstance.post(`cards/${prayerId}/comments`, commentBody, {
-      headers: {
-        Authorization: 'Bearer ' + token,
-        'Content-Type': 'application/json',
-      },
-    });
+  setComment = async ({ commentBody, prayerId }) => {
+    const axiosInstance = await this.instance();
+
+    return axiosInstance.post(`cards/${prayerId}/comments`, commentBody);
   };
 
-  editComment = ({ commentBody, commentId, token }) => {
-    return this.axiosInstance.put(`comments/${commentId}`, commentBody, {
-      headers: {
-        Authorization: 'Bearer ' + token,
-        'Content-Type': 'application/json',
-      },
-    });
+  editComment = async ({ commentBody, commentId }) => {
+    const axiosInstance = await this.instance();
+
+    return axiosInstance.put(`comments/${commentId}`, commentBody);
   };
 
-  deleteComment = ({ commentId, token }) => {
-    return this.axiosInstance.delete(`comments/${commentId}`, {
-      headers: {
-        Authorization: 'Bearer ' + token,
-        'Content-Type': 'application/json',
-      },
-    });
+  deleteComment = async ({ commentId }) => {
+    const axiosInstance = await this.instance();
+
+    return axiosInstance.delete(`comments/${commentId}`);
   };
 }
 

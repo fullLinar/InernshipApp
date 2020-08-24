@@ -9,7 +9,6 @@ import {
 import { toggleIsFetching } from './columnActions';
 import ApiService from '../utils/ApiService';
 
-import { retrieveToken } from '../utils/utils';
 const setPrayers = ({ data }) => {
   return {
     type: FETCH_PRAYERS,
@@ -62,8 +61,7 @@ export const toggleShowChecked = () => {
 export const getPrayers = () => {
   return async (dispatch) => {
     dispatch(toggleIsFetching(true));
-    const token = await retrieveToken();
-    const { data } = await ApiService.getPrayers({ token });
+    const { data } = await ApiService.getPrayers();
     try {
       dispatch(setPrayers({ data }));
       dispatch(toggleIsFetching(false));
@@ -76,8 +74,7 @@ export const getPrayers = () => {
 export const addPrayer = ({ prayerData }) => {
   return async (dispatch) => {
     dispatch(toggleIsFetching(true));
-    const token = await retrieveToken();
-    const { data } = await ApiService.setPrayer({ prayerData, token });
+    const { data } = await ApiService.setPrayer({ prayerData });
     try {
       const newPrayer = { ...data, commentsIds: [] };
       dispatch(fetchPrayer({ newPrayer }));
@@ -91,11 +88,9 @@ export const addPrayer = ({ prayerData }) => {
 export const onChangePrayerChecked = ({ prayerData, prayerId }) => {
   return async (dispatch) => {
     dispatch(toggleIsFetching(true));
-    const token = await retrieveToken();
     const { data } = await ApiService.toggleCheckedPrayer({
       prayerData,
       prayerId,
-      token,
     });
     try {
       const { checked } = data;
@@ -110,8 +105,7 @@ export const onChangePrayerChecked = ({ prayerData, prayerId }) => {
 export const deletePrayer = ({ prayerId }) => {
   return async (dispatch) => {
     dispatch(toggleIsFetching(true));
-    const token = await retrieveToken();
-    await ApiService.deletePrayer({ prayerId, token });
+    await ApiService.deletePrayer({ prayerId });
     try {
       dispatch(fetchDeletedPrayer({ prayerId }));
       dispatch(toggleIsFetching(false));
@@ -124,11 +118,9 @@ export const deletePrayer = ({ prayerId }) => {
 export const editPrayerTitle = ({ prayerData, prayerId }) => {
   return async (dispatch) => {
     dispatch(toggleIsFetching(true));
-    const token = await retrieveToken();
     const { data } = await ApiService.editPrayerTitle({
       prayerData,
       prayerId,
-      token,
     });
     try {
       const { title } = data;

@@ -1,65 +1,20 @@
 import React from 'react';
-import { View, Text, TextInput } from 'react-native';
+import { View, Text } from 'react-native';
 import { styles } from '../../styles/styles';
 import CustomButton from '../common/CustomButton';
+import FormField from '../common/FormField';
 import { Form, Field } from 'react-final-form';
+import {
+  validateRequiredField,
+  validateEmail,
+  composeValidators,
+} from '../../utils/utils';
 
 const LogIn = ({ navigation, logIn, email, pass }) => {
   const onSubmit = (value) => {
     const logInData = value;
     logIn({ logInData });
   };
-
-  const renderEmailInput = ({ input, meta }) => {
-    return (
-      <View>
-        <TextInput
-          style={styles.textInput}
-          {...input}
-          textContentType={'emailAddress'}
-          autoCapitalize={'none'}
-        />
-        {meta.error && meta.touched && <Text>{meta.error}</Text>}
-      </View>
-    );
-  };
-
-  const renderPasswordInput = ({ input, meta }) => {
-    return (
-      <View>
-        <TextInput
-          style={styles.textInput}
-          {...input}
-          textContentType={'password'}
-          secureTextEntry={true}
-        />
-        {meta.error && meta.touched && <Text>{meta.error}</Text>}
-      </View>
-    );
-  };
-
-  const required = (value) => {
-    if (!value || value === '') {
-      return 'Заполните поле!';
-    } else {
-      return undefined;
-    }
-  };
-
-  const validateEmail = (value) => {
-    let reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
-    if (reg.test(value) === false) {
-      return 'Введите корректный e-mail';
-    } else {
-      return undefined;
-    }
-  };
-
-  const composeValidators = (...validators) => (value) =>
-    validators.reduce(
-      (error, validator) => error || validator(value),
-      undefined,
-    );
 
   return (
     <Form
@@ -69,15 +24,18 @@ const LogIn = ({ navigation, logIn, email, pass }) => {
           <Text style={styles.subTitles}>Email:</Text>
           <Field
             name="email"
-            component={renderEmailInput}
-            validate={composeValidators(required, validateEmail)}
+            component={FormField}
+            validate={composeValidators(validateRequiredField, validateEmail)}
+            textContentType={'emailAddress'}
             value={email}
           />
           <Text style={styles.subTitles}>Password:</Text>
           <Field
             name="password"
-            component={renderPasswordInput}
-            validate={required}
+            component={FormField}
+            validate={validateRequiredField}
+            textContentType={'password'}
+            secureTextEntry={true}
             value={pass}
           />
           <CustomButton title="Log In" onPress={handleSubmit} />

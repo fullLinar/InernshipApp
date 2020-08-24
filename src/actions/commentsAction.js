@@ -7,7 +7,6 @@ import {
 import { SET_COMMENT_ID } from '../reducers/prayersReducer';
 import { toggleIsFetching } from './columnActions';
 import ApiServices from '../utils/ApiService';
-import { retrieveToken } from '../utils/utils';
 
 const fetchComments = ({ data }) => {
   return {
@@ -56,9 +55,7 @@ const setCommentId = ({ prayerId, id }) => {
 export const getComments = () => {
   return async (dispatch) => {
     dispatch(toggleIsFetching(true));
-    const token = await retrieveToken();
-    const { data } = await ApiServices.getComments({ token });
-    console.log();
+    const { data } = await ApiServices.getComments();
     try {
       dispatch(fetchComments({ data }));
       dispatch(toggleIsFetching(false));
@@ -71,11 +68,9 @@ export const getComments = () => {
 export const addComment = ({ commentBody, prayerId }) => {
   return async (dispatch) => {
     dispatch(toggleIsFetching(true));
-    const token = await retrieveToken();
     const { data } = await ApiServices.setComment({
       commentBody,
       prayerId,
-      token,
     });
     try {
       const { id } = data;
@@ -91,11 +86,9 @@ export const addComment = ({ commentBody, prayerId }) => {
 export const editComment = ({ commentBody, commentId }) => {
   return async (dispatch) => {
     dispatch(toggleIsFetching(true));
-    const token = await retrieveToken();
     const { data } = await ApiServices.editComment({
       commentBody,
       commentId,
-      token,
     });
     try {
       const { id, body } = data;
@@ -110,8 +103,7 @@ export const editComment = ({ commentBody, commentId }) => {
 export const deleteComment = ({ commentId }) => {
   return async (dispatch) => {
     dispatch(toggleIsFetching(true));
-    const token = await retrieveToken();
-    await ApiServices.deleteComment({ commentId, token });
+    await ApiServices.deleteComment({ commentId });
     try {
       dispatch(fetchDeletedComment({ commentId }));
       dispatch(toggleIsFetching(false));

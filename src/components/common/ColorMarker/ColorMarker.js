@@ -1,14 +1,6 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
-
-const colorGenerator = () => {
-  let letters = '0123456789ABCDEF';
-  let color = '#';
-  for (let i = 0; i < 6; i++) {
-    color += letters[Math.floor(Math.random() * 16)];
-  }
-  return color;
-};
+import { colorGenerator } from '../../../utils/utils';
 
 const ColorMarker = () => {
   const styles = StyleSheet.create({
