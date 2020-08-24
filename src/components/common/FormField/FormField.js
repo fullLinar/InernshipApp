@@ -8,7 +8,7 @@ const FormField = ({ input, meta, textContentType, secureTextEntry }) => {
       <TextInput
         style={styles.textInput}
         {...input}
-        textContentType={`${textContentType}`}
+        textContentType={textContentType}
         autoCapitalize={'none'}
         secureTextEntry={secureTextEntry}
       />
